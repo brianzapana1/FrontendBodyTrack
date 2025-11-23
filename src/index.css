@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-dark-border;
+  }
+  
+  body {
+    @apply bg-dark-bg text-text-primary font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-6 rounded-btn shadow-btn-primary hover:shadow-btn-primary-hover transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-primary text-primary hover:bg-primary/10 font-semibold py-3 px-6 rounded-btn transition-all duration-200;
+  }
+
+  .btn-gold {
+    @apply bg-accent-gold text-black font-bold py-3 px-6 rounded-btn shadow-btn-gold hover:brightness-95 transition-all duration-200;
+  }
+
+  .btn-danger {
+    @apply bg-status-error text-white font-semibold py-3 px-6 rounded-btn hover:bg-red-700 transition-all duration-200;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply bg-dark-card border border-dark-border rounded-card p-5 shadow-card transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:border-primary hover:shadow-card-hover hover:-translate-y-0.5;
+  }
+
+  /* Form Styles */
+  .input {
+    @apply w-full bg-dark-surface border border-dark-border rounded-input px-4 py-3 text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all placeholder:text-text-muted;
+  }
+
+  .input-error {
+    @apply border-status-error focus:border-status-error focus:ring-status-error/10;
+  }
+
+  .label {
+    @apply text-text-secondary text-sm font-medium block mb-2;
+  }
+}

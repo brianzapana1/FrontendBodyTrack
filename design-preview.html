@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BodyTrack - Design System Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Brand Colors */
+            --primary: #7A00FF;
+            --primary-hover: #6200CC;
+            --primary-light: #9E47FF;
+            
+            /* Accents */
+            --accent-gold: #FFD700;
+            --accent-teal: #00E676;
+            --accent-orange: #FFAB00;
+            
+            /* Dark Theme */
+            --dark-bg: #050505;
+            --dark-card: #121212;
+            --dark-surface: #1E1E1E;
+            --dark-border: #27272A;
+            
+            /* Status */
+            --status-error: #FF1744;
+            --status-success: #00E676;
+            --status-warning: #FFAB00;
+            
+            /* Text */
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --text-muted: #52525B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--dark-border);
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .color-swatch {
+            text-align: center;
+        }
+
+        .color-box {
+            height: 100px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .color-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .color-hex {
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-primary);
+            box-shadow: 0 4px 14px 0 rgba(122, 0, 255, 0.39);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 6px 20px 0 rgba(122, 0, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(122, 0, 255, 0.1);
+        }
+
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #000000;
+            box-shadow: 0 4px 14px 0 rgba(255, 215, 0, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-gold:hover {
+            background: #FFC700;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--status-error);
+            color: var(--text-primary);
+        }
+
+        .btn-danger:hover {
+            background: #D50032;
+        }
+
+        .btn-icon {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 8px;
+        }
+
+        .btn-icon:hover {
+            background: var(--dark-surface);
+            color: var(--text-primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(122, 0, 255, 0.15);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .card-highlighted {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(122, 0, 255, 0.3);
+        }
+
+        .card-stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(122, 0, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-input.error {
+            border-color: var(--status-error);
+        }
+
+        .form-input.error:focus {
+            box-shadow: 0 0 0 3px rgba(255, 23, 68, 0.1);
+        }
+
+        .form-error {
+            color: var(--status-error);
+            font-size: 13px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-success {
+            color: var(--status-success);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-active {
+            background: rgba(0, 230, 118, 0.1);
+            color: var(--accent-teal);
+            border: 1px solid var(--accent-teal);
+        }
+
+        .badge-inactive {
+            background: rgba(82, 82, 91, 0.2);
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+        }
+
+        .badge-premium {
+            background: rgba(122, 0, 255, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .badge-pro {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+        }
+
+        .badge-achievement {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #FFA500 100%);
+            color: #000000;
+            border: none;
+            padding: 6px 14px;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--dark-surface);
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bar-gold {
+            background: linear-gradient(90deg, var(--accent-gold) 0%, #FFA500 100%);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 16px 24px;
+            margin: -40px -20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Sidebar Item */
+        .sidebar-item {
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-item:hover {
+            background: var(--dark-surface);
+            color: var(--text-primary);
+        }
+
+        .sidebar-item.active {
+            background: rgba(122, 0, 255, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--dark-surface);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--dark-surface);
+        }
+
+        /* Loading */
+        .spinner {
+            border: 3px solid rgba(122, 0, 255, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .skeleton {
+            background: linear-gradient(
+                90deg,
+                var(--dark-surface) 0%,
+                var(--dark-border) 50%,
+                var(--dark-surface) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+            height: 20px;
+        }
+
+        @keyframes shimmer {
+            to { background-position: -200% 0; }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        /* Utility Classes */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .gap-4 { gap: 16px; }
+        .gap-2 { gap: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mt-4 { margin-top: 16px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">💪 BodyTrack</div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">Dashboard</a>
+            <a href="#" class="nav-link">Mi Rutina</a>
+            <a href="#" class="nav-link">Progreso</a>
+            <a href="#" class="nav-link">Foro</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>BodyTrack Design System</h1>
+            <p>"Strength & Elegance" - Preview de Componentes</p>
+        </div>
+
+        <!-- Color Palette Section -->
+        <section class="section">
+            <h2 class="section-title">🎨 Paleta de Colores</h2>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #7A00FF; color: white;">Primary</div>
+                    <div class="color-label">Primary Purple</div>
+                    <div class="color-hex">#7A00FF</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #6200CC; color: white;">Hover</div>
+                    <div class="color-label">Primary Hover</div>
+                    <div class="color-hex">#6200CC</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #FFD700; color: black;">Gold</div>
+                    <div class="color-label">Gold Accent</div>
+                    <div class="color-hex">#FFD700</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #00E676; color: black;">Success</div>
+                    <div class="color-label">Success Green</div>
+                    <div class="color-hex">#00E676</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #FF1744; color: white;">Error</div>
+                    <div class="color-label">Error Red</div>
+                    <div class="color-hex">#FF1744</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #050505; color: white; border: 1px solid #27272A;">BG</div>
+                    <div class="color-label">Background Base</div>
+                    <div class="color-hex">#050505</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #121212; color: white;">Card</div>
+                    <div class="color-label">Card / Surface</div>
+                    <div class="color-hex">#121212</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #1E1E1E; color: white;">Surface</div>
+                    <div class="color-label">Surface Highlight</div>
+                    <div class="color-hex">#1E1E1E</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buttons Section -->
+        <section class="section">
+            <h2 class="section-title">🔘 Botones</h2>
+            <div class="flex gap-4" style="flex-wrap: wrap;">
+                <button class="btn btn-primary">Guardar Progreso</button>
+                <button class="btn btn-secondary">Cancelar</button>
+                <button class="btn btn-gold">🏆 Actualizar a PRO</button>
+                <button class="btn btn-danger">Eliminar</button>
+                <button class="btn btn-icon">⚙️</button>
+            </div>
+        </section>
+
+        <!-- Cards Section -->
+        <section class="section">
+            <h2 class="section-title">🃏 Tarjetas</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-title">Rutina Semanal</div>
+                    <p class="card-text">Semana 3 de 12 - Hipertrofia</p>
+                    <div class="progress-container mt-4">
+                        <div class="progress-bar" style="width: 60%"></div>
+                    </div>
+                    <p class="card-text mt-4">3/5 días completados</p>
+                </div>
+
+                <div class="card card-highlighted">
+                    <div class="card-title">⭐ Rutina Activa</div>
+                    <p class="card-text">Tu rutina está activa y lista</p>
+                    <button class="btn btn-primary mt-4" style="width: 100%;">Ver Rutina</button>
+                </div>
+
+                <div class="card card-stat">
+                    <div class="stat-label">Peso Actual</div>
+                    <div class="stat-value">75.5 <span style="font-size: 18px; color: var(--text-secondary);">kg</span></div>
+                    <div class="progress-container mt-4">
+                        <div class="progress-bar progress-bar-gold" style="width: 85%"></div>
+                    </div>
+                    <p class="card-text mt-4" style="color: var(--accent-teal);">↑ 2.5kg este mes</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forms Section -->
+        <section class="section">
+            <h2 class="section-title">📝 Formularios</h2>
+            <div class="grid grid-2">
+                <div>
+                    <div class="form-group">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-input" placeholder="Ingresa tu nombre" value="Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" placeholder="email@ejemplo.com" value="juan@ejemplo.com">
+                        <div class="form-success">✓ Email verificado</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label class="form-label">Peso (kg)</label>
+                        <input type="number" class="form-input" placeholder="75.5" value="75.5">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input error" placeholder="70123456" value="701234">
+                        <div class="form-error">⚠️ Número de teléfono inválido</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges Section -->
+        <section class="section">
+            <h2 class="section-title">🏷️ Badges y Estados</h2>
+            <div class="flex gap-2" style="flex-wrap: wrap;">
+                <span class="badge badge-active">Activo</span>
+                <span class="badge badge-inactive">Inactivo</span>
+                <span class="badge badge-premium">Premium</span>
+                <span class="badge badge-pro">PRO</span>
+                <span class="badge badge-achievement">🏆 Nuevo Récord</span>
+                <span class="badge" style="background: rgba(255, 171, 0, 0.1); color: var(--accent-orange); border: 1px solid var(--accent-orange);">Pendiente</span>
+            </div>
+        </section>
+
+        <!-- Progress Bars Section -->
+        <section class="section">
+            <h2 class="section-title">📊 Barras de Progreso</h2>
+            <div class="card">
+                <p class="card-text mb-4">Progreso General - 75%</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 75%"></div>
+                </div>
+
+                <p class="card-text mb-4 mt-4">Personal Best - 90%</p>
+                <div class="progress-container">
+                    <div class="progress-bar progress-bar-gold" style="width: 90%"></div>
+                </div>
+
+                <p class="card-text mb-4 mt-4">Objetivo Mensual - 45%</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 45%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Items Section -->
+        <section class="section">
+            <h2 class="section-title">🧭 Elementos de Navegación</h2>
+            <div class="card" style="max-width: 300px;">
+                <div class="sidebar-item active">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>💪</span>
+                    <span>Mi Rutina</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>📈</span>
+                    <span>Progreso</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>🏋️</span>
+                    <span>Ejercicios</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>💬</span>
+                    <span>Foro</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>⚙️</span>
+                    <span>Configuración</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table Section -->
+        <section class="section">
+            <h2 class="section-title">📋 Tablas</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Plan</th>
+                            <th>Estado</th>
+                            <th>Progreso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Juan Pérez</td>
+                            <td><span class="badge badge-pro">PRO</span></td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 80%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>María García</td>
+                            <td><span class="badge badge-premium">Premium</span></td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 65%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carlos López</td>
+                            <td><span class="badge" style="background: rgba(161, 161, 170, 0.1); color: var(--text-secondary); border: 1px solid var(--text-secondary);">Básico</span></td>
+                            <td><span class="badge badge-inactive">Inactivo</span></td>
+                            <td>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 30%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Loading States Section -->
+        <section class="section">
+            <h2 class="section-title">⏳ Estados de Carga</h2>
+            <div class="grid grid-3">
+                <div class="card" style="text-align: center;">
+                    <p class="card-text mb-4">Spinner</p>
+                    <div class="spinner" style="margin: 0 auto;"></div>
+                </div>
+                <div class="card">
+                    <p class="card-text mb-4">Skeleton Loader</p>
+                    <div class="skeleton mb-4"></div>
+                    <div class="skeleton mb-4" style="width: 80%;"></div>
+                    <div class="skeleton" style="width: 60%;"></div>
+                </div>
+                <div class="card">
+                    <p class="card-text mb-4">Progress Indicator</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 50%; animation: progressMove 1.5s infinite;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal Preview Section -->
+        <section class="section">
+            <h2 class="section-title">🪟 Modal (Preview Estático)</h2>
+            <div class="card">
+                <div class="modal-content" style="position: static; box-shadow: none;">
+                    <div class="modal-header">Confirmar Eliminación</div>
+                    <p class="card-text">¿Estás seguro de que deseas eliminar este ejercicio? Esta acción no se puede deshacer.</p>
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary">Cancelar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Section -->
+        <section class="section">
+            <h2 class="section-title">✍️ Tipografía</h2>
+            <div class="card">
+                <h1 style="font-family: 'Poppins', sans-serif; font-size: 56px; font-weight: 800; margin-bottom: 16px;">Display 1 - Poppins 800</h1>
+                <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 16px;">Heading 1 - Inter 700</h2>
+                <h3 style="font-size: 24px; font-weight: 600; margin-bottom: 16px;">Heading 3 - Inter 600</h3>
+                <p style="font-size: 16px; color: var(--text-primary); margin-bottom: 12px;">Body Text - Inter 400 (Primary Color)</p>
+                <p style="font-size: 16px; color: var(--text-secondary); margin-bottom: 12px;">Body Text - Inter 400 (Secondary Color)</p>
+                <p style="font-size: 14px; color: var(--text-muted);">Small Text - Inter 400 (Muted Color)</p>
+            </div>
+        </section>
+
+        <!-- Complete Workout Card Example -->
+        <section class="section">
+            <h2 class="section-title">🎯 Ejemplo Completo: Card de Entrenamiento</h2>
+            <div class="card card-highlighted" style="max-width: 600px; margin: 0 auto;">
+                <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div>
+                        <div class="card-title">Día 3: Piernas 🦵</div>
+                        <p class="card-text">Hipertrofia • 60 min • 8 ejercicios</p>
+                    </div>
+                    <span class="badge badge-achievement">🏆 Record</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar progress-bar-gold" style="width: 100%"></div>
+                </div>
+                <p class="card-text mt-4">8/8 ejercicios completados</p>
+                
+                <div class="grid grid-2 mt-4" style="gap: 12px;">
+                    <div style="background: var(--dark-surface); padding: 12px; border-radius: 8px;">
+                        <p class="card-text" style="font-size: 12px; margin-bottom: 4px;">Peso Total</p>
+                        <p style="font-size: 24px; font-weight: 700;">2,450 <span style="font-size: 14px; color: var(--text-secondary);">kg</span></p>
+                    </div>
+                    <div style="background: var(--dark-surface); padding: 12px; border-radius: 8px;">
+                        <p class="card-text" style="font-size: 12px; margin-bottom: 4px;">Duración</p>
+                        <p style="font-size: 24px; font-weight: 700;">58 <span style="font-size: 14px; color: var(--text-secondary);">min</span></p>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 mt-4">
+                    <button class="btn btn-secondary" style="flex: 1;">Ver Detalle</button>
+                    <button class="btn btn-primary" style="flex: 1;">Repetir</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div style="height: 60px;"></div>
+
+    <style>
+        @keyframes progressMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(300%); }
+        }
+    </style>
+</body>
+</html>
