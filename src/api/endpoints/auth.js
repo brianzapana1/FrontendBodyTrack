@@ -19,6 +19,18 @@ export const authAPI = {
     return data
   },
 
+  // Refresh access token
+  refresh: async () => {
+    const { data } = await api.post('/api/auth/refresh')
+    return data
+  },
+
+  // Logout
+  logout: async () => {
+    const { data } = await api.post('/api/auth/logout')
+    return data
+  },
+
   // Obtener perfil del usuario autenticado
   getPerfil: async () => {
     const { data } = await api.get('/api/auth/perfil')

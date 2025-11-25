@@ -40,10 +40,36 @@ Backend API should be running on `http://localhost:4000`
 
 ## 🔐 Authentication
 
-JWT-based authentication with:
-- Token stored in localStorage
-- Axios interceptor for automatic token injection
-- Protected routes with role-based access (CLIENTE, ENTRENADOR, ADMIN)
+**Secure dual-token authentication system:**
+
+### Access Token
+- **15 minute** lifespan
+- Stored in **memory** (Zustand state, not localStorage)
+- Sent in `Authorization: Bearer` header
+- Auto-refreshed before expiration
+
+### Refresh Token
+- **7 day** lifespan
+- Stored in **HttpOnly cookie** (secure, not accessible to JavaScript)
+- Automatically sent with requests via `withCredentials: true`
+- Used only for refreshing access tokens
+
+### Security Features
+- ✅ **No localStorage** - Tokens not vulnerable to XSS attacks
+- ✅ **HttpOnly cookies** - Refresh token protected from JavaScript access
+- ✅ **Auto-refresh** - Seamless 15-minute token renewal
+- ✅ **401 recovery** - Automatic token refresh on expiration
+- ✅ **Protected routes** - Role-based access (CLIENTE, ENTRENADOR, ADMIN)
+
+### How It Works
+```
+1. User logs in → receives 15min access token (memory) + 7day refresh token (cookie)
+2. Frontend stores access token in Zustand (memory only)
+3. Every API call includes: Authorization header + cookies
+4. Timer refreshes token at 14 minutes automatically
+5. If 401 error → tries refresh → retries original request
+6. Logout clears both tokens
+```
 
 ## 📁 Project Structure
 
