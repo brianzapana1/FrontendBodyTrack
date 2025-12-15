@@ -1,0 +1,321 @@
+/* Auth.module.css - 100% fiel al original, sin :root ni estilos globales */
+.wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #EAF0FF;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: url("../../assets/Gym.jpg") center/cover no-repeat;
+  filter: saturate(0.9) brightness(0.55);
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5,12,50,.65), rgba(5,12,50,.85));
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(108,199,255,.8);
+  filter: blur(0.2px);
+  opacity: 0.7;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(110vh); }
+  to { transform: translateY(-20vh); }
+}
+
+.card {
+  width: min(92vw, 760px);
+  background: linear-gradient(180deg, rgba(6,18,88,.88), rgba(3,12,64,.92));
+  border: 2px solid rgba(136,175,255,.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);
+  border-radius: 28px;
+  padding: 24px 22px 26px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  animation: rise .6s cubic-bezier(.21,.98,.6,.99);
+}
+
+@keyframes rise {
+  from { transform: translateY(18px) scale(.985); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+.ring::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 32px;
+  background:
+    radial-gradient(600px 180px at 50% -20%, rgba(124,96,255,.5), transparent 60%),
+    radial-gradient(800px 180px at 50% 120%, rgba(108,199,255,.45), transparent 60%);
+  filter: blur(18px);
+  opacity: .6;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: .55; }
+  50% { opacity: .85; }
+}
+
+.logo {
+  width: 94px;
+  height: 94px;
+  margin: 0 auto 8px;
+  background: url("../../assets/logo-bodytrack.png") center/contain no-repeat;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(124,96,255,.15), 0 0 0 12px rgba(108,199,255,.1);
+  animation: hover 3.2s ease-in-out infinite;
+}
+
+@keyframes hover {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.title {
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: .8px;
+  margin: 6px 0 4px;
+}
+
+.switch {
+  text-align: center;
+  color: #cfd9ff;
+  font-size: .95rem;
+  margin-bottom: 16px;
+}
+
+.switch a {
+  color: #cfe1ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.switch a:hover {
+  color: #ffffff;
+}
+
+.views {
+  position: relative;
+}
+
+.view {
+  width: min(92vw, 640px);
+  margin: 0 auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: transform .45s cubic-bezier(.21,.98,.6,.99), opacity .35s ease;
+}
+
+.view:not(.visible) {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px) scale(.98);
+  pointer-events: none;
+}
+
+/* Botones */
+.btn {
+  appearance: none;
+  border: 0;
+  outline: none;
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  margin: 12px auto;
+  font-weight: 800;
+  letter-spacing: .4px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #EAF0FF;
+  background: linear-gradient(180deg, #2c3db0, #1f2b84);
+  border: 1px solid rgba(164,186,255,.35);
+  box-shadow: 0 8px 22px rgba(23,32,88,.45), 0 0 0 2px rgba(140,176,255,.14) inset;
+  position: relative;
+  overflow: hidden;
+  transition: filter .2s, transform .06s;
+}
+
+.btn:hover { filter: brightness(1.06); }
+.btn:active { transform: translateY(1px); }
+
+.btnGhost {
+  background: transparent;
+  color: #d7e4ff;
+  border: 1px solid rgba(160,190,255,.35);
+}
+
+.btnOk {
+  background: linear-gradient(180deg, #26dfba, #11b595);
+  color: #06253a;
+  border-color: rgba(38,223,186,.55);
+}
+
+.btnDisabled {
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* Campos */
+.grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .grid2 { grid-template-columns: 1fr 1fr; }
+}
+
+.field {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid rgba(173,196,255,.22);
+  border-radius: 12px;
+  padding: 10px 12px 8px;
+  position: relative;
+}
+
+.label {
+  font-size: .78rem;
+  color: #bcd0ff;
+  opacity: .9;
+}
+
+.input {
+  width: 100%;
+  font-size: 1rem;
+  color: white;
+  background: transparent;
+  border: 0;
+  outline: none;
+  padding: 6px 0 2px;
+}
+
+.input[type="password"] {
+  padding-right: 40px;
+}
+
+.eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: .9;
+}
+
+.eye::after {
+  content: "👁️";
+  filter: grayscale(30%);
+  font-size: 18px;
+}
+
+.errMsg {
+  color: #ff6f91;
+  font-size: .82rem;
+  margin: 6px 2px 0;
+  display: none;
+}
+
+.errShow { display: block; }
+
+.field.invalid {
+  border-color: rgba(255,111,145,.75);
+  box-shadow: 0 0 0 1px rgba(255,111,145,.25) inset;
+}
+
+/* Utilidades */
+.center { text-align: center; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+.sep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #9eb2ff;
+  opacity: .8;
+  margin: 12px 0;
+}
+
+.sep::before,
+.sep::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, rgba(176,200,255,.35), transparent);
+}
+
+.link { color: #cfe1ff; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.small { font-size: .9rem; color: #b9c9ff; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%) translateY(20px);
+  background: #0e1c66;
+  border: 1px solid rgba(162,190,255,.35);
+  color: #eaf0ff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: all .35s ease;
+  z-index: 1000;
+}
+
+.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.errorBox {
+  background: rgba(255, 0, 0, 0.2);
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}

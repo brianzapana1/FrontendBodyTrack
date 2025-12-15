@@ -1,0 +1,82 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--navy);
+  border-bottom: 2px solid #06102b;
+  transition: box-shadow .25s ease;
+}
+
+.navScrolled {
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}
+
+.navIn {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.brand img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.brandName {
+  font-weight: 800;
+  letter-spacing: .5px;
+  color: #dfe8ff;
+}
+
+.menu {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pill {
+  font-size: .9rem;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #314078;
+  color: #e8eeff;
+  border: 1px solid #465795;
+  transition: transform .15s ease, background .2s ease;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+  background: #3b4b89;
+}
+
+.pillAccent {
+  background: linear-gradient(180deg,#2c3db0,#1f2b84);
+  border-color: #4b5eb0;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(23,32,88,.4),
+              inset 0 0 0 2px rgba(140,176,255,.12);
+}
+
+.pillAccent:hover {
+  filter: brightness(1.05);
+}
+
+.dropdownMenu {
+  display: none;
+}
+
+.dropdown:hover .dropdownMenu {
+  display: flex;
+  flex-direction: column;
+}

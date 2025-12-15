@@ -1,0 +1,12 @@
+.subs { background: #e8d7ea; padding: 48px 16px; }
+.subs .title { text-align: center; }
+.subs h2 { font-size: clamp(24px,4.5vw,40px); margin: 0; font-weight: 900; }
+.subs h3 { font-size: clamp(20px,3.6vw,32px); margin: 6px 0 26px; font-weight: 900; }
+.plans { display: grid; gap: 22px; max-width: 1100px; margin: 0 auto; }
+@media(min-width:930px) { .plans { grid-template-columns: 1fr 1fr; } }
+.plan { background: #4a445f; padding: 22px; border-radius: 24px; color: #eef1ff; border: 2px solid #3b3650; position: relative; }
+.plan .tab { position: absolute; left: 24px; top: -14px; background: #f2caff; color: #122; padding: 6px 14px; border-radius: 12px; border: 2px solid #e8b4ff; font-weight: 800; }
+.plan ul { margin: 14px 0 8px; padding-left: 0; list-style: none; }
+.plan li { padding: 10px 8px 10px 36px; position: relative; border-bottom: 1px dashed #6a6480; }
+.plan li:before { content: "✓"; position: absolute; left: 10px; top: 10px; }
+.ghostBtn { display: inline-block; margin-top: 18px; border: 2px solid #1c1f3d; color: #1c1f3d; background: #eaf3ff; padding: 12px 18px; border-radius: 12px; font-weight: 800; }

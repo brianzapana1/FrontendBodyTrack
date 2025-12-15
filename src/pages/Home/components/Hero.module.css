@@ -1,0 +1,81 @@
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(6,9,28,.7), rgba(6,9,28,.8)),
+    url("/src/assets/Gym.jpg") center/cover no-repeat;
+  overflow: hidden;
+}
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(108,199,255,.8);
+  filter: blur(.2px);
+  opacity: .7;
+  animation: float linear infinite;
+}
+@keyframes float {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(-20%);
+  }
+}
+.hero__content {
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  padding: 56px 16px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-size: clamp(28px,4.2vw,44px);
+  line-height: 1.25;
+  margin: 0 0 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.hero p {
+  opacity: .95;
+  font-size: clamp(16px,2.2vw,22px);
+  margin: 0 0 22px;
+}
+
+/* reuse button style locally */
+.btn {
+  display: inline-block;
+  background: #2a3c79;
+  color: #e4e6ec;
+  border: 2px solid #4b5eb0;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 22px rgba(23,32,88,.35), inset 0 0 0 2px rgba(140,176,255,.12);
+  transition: filter .2s, transform .06s;
+}
+.btn:hover {
+  filter: brightness(1.05);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* reveal helper for individual elements */
+.revealChild {
+  will-change: transform, opacity;
+}

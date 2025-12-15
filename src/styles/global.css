@@ -1,0 +1,97 @@
+/* =================== GLOBAL.CSS - BASE DEL SISTEMA =================== */
+
+/* ===== VARIABLES ===== */
+:root {
+  --navy: #0c1230;
+  --indigo: #1b2357;
+  --lav: #e9d3ef;
+  --lav-2: #f1daff;
+  --card: #3e3954;
+  --text: #0a0a0a;
+  --white: #ffffff;
+  --cta: #263a6b;
+  --cta-2: #2e367a;
+  --accent: #7b46e6;
+  --pill: #f3caff;
+
+  /* Auth variables */
+  --navy-2: #0a1a68;
+  --ink: #0c1035;
+  --card-auth: #03114f;
+  --ring: #6cc7ff;
+  --accent-auth: #7a4cff;
+  --muted-auth: #cfd9ff;
+  --text-auth: #EAF0FF;
+  --ghost-auth: #9fb1ff;
+  --ok: #54f0c9;
+  --err: #ff6f91;
+}
+
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ===== ANIMACIONES GLOBALES ===== */
+@keyframes rise {
+  from { transform: translateY(18px) scale(.985); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.reveal { 
+  opacity: 0; 
+  transform: translateY(18px) scale(.985); 
+}
+.reveal.show {
+  animation: rise .6s cubic-bezier(.21,.98,.6,.99) forwards;
+}
+
+/* ========== PARTICULAS (GLOBAL) ========== */
+
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(108,199,255,.8);
+  filter: blur(.2px);
+  opacity: .7;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(110vh); }
+  to { transform: translateY(-20vh); }
+}
+
+
+/* Ripple global */
+@keyframes ripple {
+  to { transform: scale(1); opacity: 0; }
+}
