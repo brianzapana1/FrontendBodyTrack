@@ -173,13 +173,32 @@ interface ForoComentario {
 interface Suscripcion {
   id: string
   clienteId: string
-  plan: 'BASICO' | 'PREMIUM' | 'PRO'
+  plan: 'FREE' | 'PREMIUM' // FREE = BASICO (default), PREMIUM = paid tier
   estado: 'ACTIVA' | 'CANCELADA' | 'EXPIRADA'
   fechaInicio: Date
   fechaFin: Date
   monto: number
   metodoPago?: string
 }
+
+// 🎯 SUBSCRIPTION STRATEGY
+// 
+// FREE TIER (Default on registration):
+// - View-only exercise catalog
+// - Access to 3-5 generic/pre-made routines
+// - Limited progress tracking (last 3 months only)
+// - Forum access (read-only or limited)
+// - No trainer assignment
+// - No personalized routines
+//
+// PREMIUM TIER (Paid monthly subscription):
+// - Everything in FREE
+// - 1 dedicated trainer assignment
+// - Personalized routines from trainer
+// - Unlimited progress tracking (full history)
+// - Trainer feedback & communication
+// - Full forum access
+// - Priority support
 ```
 
 ---
@@ -581,19 +600,152 @@ frontend/
 
 ---
 
-### **FASE 6: Foro Comunitario (Semana 7)**
+### **FASE 6: Subscriptions & Access Control (Semana 7-8)** 🆕
+
+> **Business Model Implementation**: FREE tier (default) vs PREMIUM tier (paid)
+
+#### 📋 Subscription Strategy:
+
+**FREE Tier (Default on registration):**
+- ✅ View-only exercise catalog
+- ✅ Access to 3-5 generic/pre-made routines (templates)
+- ✅ Limited progress tracking (last 3 months only)
+- ✅ Forum access (read-only or limited posting)
+- ❌ No trainer assignment
+- ❌ No personalized routines
+
+**PREMIUM Tier (Paid monthly subscription):**
+- ✅ Everything in FREE
+- ✅ 1 dedicated trainer assignment
+- ✅ Personalized routines created by trainer
+- ✅ Unlimited progress tracking (full history)
+- ✅ Trainer feedback & communication
+- ✅ Full forum access
+- ✅ Priority support
+
+#### Tareas:
+
+**6.1 Backend Updates:**
+1. Update Prisma schema:
+   - Change `plan` enum to `'FREE' | 'PREMIUM'` (remove BASICO/PRO)
+   - Add `esGenerica: boolean` to Rutina model
+   - Add `limiteFechaProgreso` to Cliente model (optional)
+
+2. Seed generic routines:
+   - Create 3-5 pre-made routines marked as `esGenerica: true`
+   - Beginner, Intermediate, Advanced templates
+   - Assign to categories (Hipertrofia, Pérdida de peso, Fuerza)
+
+3. Update middleware:
+   - `requirePremium()` - Check if user has active PREMIUM subscription
+   - `checkRutinaAccess()` - FREE users can only see generic routines
+
+**6.2 Frontend - Subscription Pages:**
+1. **Planes de Suscripción** (`/planes`)
+   - Show FREE vs PREMIUM comparison
+   - Feature checklist for each tier
+   - "Upgrade to Premium" CTA
+   - Pricing display
+
+2. **Payment Flow** (`/checkout`)
+   - Payment form (Stripe/MercadoPago integration or simulated)
+   - Confirmation page
+   - Success/error handling
+
+3. **Mi Suscripción** (`/mi-suscripcion`)
+   - Current plan display
+   - Subscription status (active/expired)
+   - Upgrade/downgrade options
+   - Cancel subscription
+   - Payment history
+
+**6.3 Frontend - Access Control:**
+1. **Rutinas Access Logic:**
+   - FREE users: Show only generic routines in `/rutinas`
+   - FREE users: In `/mi-rutina` show upgrade message if no generic routine assigned
+   - PREMIUM users: Show all routines (generic + personalized)
+   - Add "🔒 Premium Feature" badges
+
+2. **Progress Tracking Limits:**
+   - FREE: Filter progress data to last 3 months
+   - PREMIUM: Show full history
+   - Add upgrade prompt in progress page for FREE users
+
+3. **Trainer Assignment:**
+   - Only PREMIUM users can be assigned to trainers
+   - Trainer selection flow after subscription upgrade
+   - Trainer can only create personalized routines for PREMIUM clients
+
+**6.4 Admin Tools:**
+1. **Subscription Management:**
+   - View all subscriptions
+   - Filter by status (active/expired/cancelled)
+   - Manually activate/deactivate
+   - Revenue statistics
+
+2. **Generic Routines Management:**
+   - Mark routines as generic
+   - Assign difficulty levels
+   - Preview as client would see
+
+#### API Endpoints to Implement/Update:
+```javascript
+// Subscriptions
+GET    /api/suscripciones/planes          // Get available plans (FREE/PREMIUM)
+GET    /api/suscripciones/mi-suscripcion  // Get current user subscription
+POST   /api/suscripciones/contratar       // Create new subscription (upgrade)
+POST   /api/suscripciones/cancelar        // Cancel subscription
+GET    /api/suscripciones/historial       // Payment history
+
+// Rutinas with access control
+GET    /api/rutinas?esGenerica=true       // Get only generic routines (FREE users)
+GET    /api/rutinas/genericas             // Dedicated endpoint for generic routines
+
+// Admin
+GET    /api/admin/suscripciones           // All subscriptions
+GET    /api/admin/revenue                 // Revenue stats
+```
+
+#### Components to Create:
+```javascript
+// Subscription components
+- <PlanesComparison />          // FREE vs PREMIUM table
+- <UpgradePrompt />             // CTA to upgrade
+- <SuscripcionCard />           // Current subscription info
+- <PaymentForm />               // Payment checkout
+- <PremiumBadge />              // 🔒 indicator
+
+// Access control
+- <RequirePremium />            // Wrapper component
+- <FeatureLockedMessage />      // Upgrade prompt for locked features
+```
+
+#### Entregables:
+- ✅ Subscription system fully implemented
+- ✅ FREE users have limited but functional experience
+- ✅ PREMIUM users get full personalized training
+- ✅ Payment flow working (simulated or real)
+- ✅ Access control enforced on both frontend & backend
+- ✅ Generic routines catalog available for FREE users
+- ✅ Progress tracking date limits for FREE tier
+
+---
+
+### **FASE 7: Foro Comunitario (Semana 9)**
 
 #### Tareas:
 1. **Feed de Posts**
    - Lista de posts del foro
    - Infinite scroll o paginación
    - Preview de contenido
+   - Filter by user tier (FREE users limited posts?)
 
 2. **Crear/Editar Post**
    - Formulario crear post
    - Editor de texto enriquecido (opcional)
    - Editar/eliminar propio post
    - Admin puede eliminar cualquier post
+   - FREE users: Limited to 5 posts per month (optional restriction)
 
 3. **Comentarios**
    - Ver comentarios de un post
@@ -609,69 +761,45 @@ frontend/
 - ✅ Feed de posts funcional
 - ✅ Usuarios pueden crear posts y comentarios
 - ✅ Sistema de permisos (editar/eliminar)
+- ✅ Subscription-based limits (if applicable)
 
 ---
 
-### **FASE 7: Suscripciones y Pagos (Semana 8)**
+### **FASE 8: Panel de Entrenadores (Semana 10)**
 
-#### Tareas:
-1. **Planes de Suscripción**
-   - Mostrar planes disponibles (BASICO, PREMIUM, PRO)
-   - Comparación de planes
-   - Botón "Contratar Plan"
-
-2. **Crear Suscripción**
-   - Formulario de pago (simulado o integración real)
-   - Seleccionar método de pago
-   - Confirmación de pago
-
-3. **Historial de Suscripciones**
-   - Ver suscripciones pasadas
-   - Ver suscripción activa
-   - Cancelar suscripción
-
-4. **Estadísticas (Admin)**
-   - Ingresos totales
-   - Suscripciones activas/expiradas
-   - Gráficas de ingresos
-
-5. **API Hooks**
-   - `useSuscripciones()` - CRUD de suscripciones
-   - `useSuscripcionActiva()` - suscripción actual
-   - `useEstadisticasSuscripciones()` - stats (admin)
-
-#### Entregables:
-- ✅ Cliente puede contratar/cancelar suscripción
-- ✅ Historial de pagos visible
-- ✅ Admin puede ver estadísticas de ingresos
-
----
-
-### **FASE 8: Panel de Entrenadores (Semana 9)**
+### **FASE 8: Panel de Entrenadores (Semana 10)**
 
 #### Tareas:
 1. **Gestión de Clientes**
-   - Lista de clientes asignados
+   - Lista de clientes asignados (only PREMIUM clients)
    - Ver progreso de cada cliente
    - Ver rutina asignada
-   - Asignar nueva rutina
+   - Asignar nueva rutina (personalized, not generic)
 
 2. **Estadísticas del Entrenador**
-   - Total de clientes
-   - Rutinas creadas
+   - Total de clientes PREMIUM
+   - Rutinas personalizadas creadas
    - Clientes activos vs inactivos
 
 3. **Comunicación (opcional)**
    - Chat con clientes (si backend lo soporta)
    - Notificaciones de nuevos registros de progreso
 
+4. **Client Assignment Flow:**
+   - PREMIUM clients can select/request a trainer
+   - Trainer accepts/rejects client requests
+   - Once assigned, trainer can create personalized routines
+
 #### Entregables:
-- ✅ Entrenador puede gestionar clientes
+- ✅ Entrenador puede gestionar clientes PREMIUM
 - ✅ Vista de estadísticas funcional
+- ✅ Routine assignment flow working
 
 ---
 
-### **FASE 9: Panel de Admin (Semana 10)**
+### **FASE 9: Panel de Admin (Semana 11)**
+
+### **FASE 9: Panel de Admin (Semana 11)**
 
 #### Tareas:
 1. **Gestión de Usuarios**
@@ -682,21 +810,31 @@ frontend/
 
 2. **Estadísticas del Sistema**
    - Total de usuarios por rol
+   - FREE vs PREMIUM user split
    - Suscripciones activas
    - Ingresos mensuales
    - Posts del foro
+   - Conversion rate (FREE → PREMIUM)
 
 3. **Verificación de Suscripciones**
    - Botón para verificar suscripciones expiradas
    - Notificaciones de expiración
+   - Auto-downgrade PREMIUM → FREE on expiration
+
+4. **Generic Routines Management:**
+   - Create/edit/delete generic routines
+   - Mark routines as generic
+   - Preview as FREE user would see
 
 #### Entregables:
 - ✅ Admin puede gestionar usuarios
 - ✅ Dashboard de admin con métricas clave
+- ✅ Subscription analytics visible
+- ✅ Generic routines management
 
 ---
 
-### **FASE 10: Optimizaciones y Pulido (Semana 11-12)**
+### **FASE 10: Optimizaciones y Pulido (Semana 12)**
 
 #### Tareas:
 1. **Performance**
