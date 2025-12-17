@@ -1,23 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
 
 export default function Login() {
   const navigate = useNavigate()
-  const { login, isLoading, error } = useAuthStore()
+  const { login, isLoading, error, clearError } = useAuthStore()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
 
+  // Clear any previous errors when component mounts
+  useEffect(() => {
+    clearError()
+    
+    // Clear errors when unmounting
+    return () => clearError()
+  }, [clearError])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      await login(formData.email, formData.password)
+    const result = await login(formData.email, formData.password)
+    
+    // Only navigate if login was successful (returned data)
+    if (result) {
       navigate('/dashboard')
-    } catch (err) {
-      console.error('Error al iniciar sesión:', err)
     }
+    // If result is null, error is already set in store and will be displayed
   }
 
   const handleChange = (e) => {

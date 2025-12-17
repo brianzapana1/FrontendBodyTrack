@@ -9,6 +9,43 @@ export const useAuthStore = create((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  isInitialized: false,
+
+  // Initialize auth state on app load
+  initialize: async () => {
+    if (get().isInitialized) return
+    
+    try {
+      // Try to refresh using the HttpOnly cookie
+      // authAPI.refresh() already extracts data from response
+      const refreshData = await authAPI.refresh()
+      
+      if (refreshData && refreshData.token) {
+        // Get user profile with all data including nombres, apellidos, etc.
+        const profile = await authAPI.getPerfil()
+        
+        set({ 
+          user: profile,
+          token: refreshData.token,
+          isAuthenticated: true,
+          isInitialized: true
+        })
+        
+        get().startRefreshTimer()
+      } else {
+        throw new Error('No token received')
+      }
+    } catch (error) {
+      // No valid refresh token or error, silently fail and user needs to login
+      // This is expected on first visit or after logout - don't log as error
+      set({ 
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        isInitialized: true
+      })
+    }
+  },
 
   startRefreshTimer: () => {
     // Clear any existing timer
@@ -22,10 +59,16 @@ export const useAuthStore = create((set, get) => ({
 
   refreshToken: async () => {
     try {
-      const data = await authAPI.refresh()
-      set({ token: data.token })
-      get().startRefreshTimer()
-      return data
+      // authAPI.refresh() already extracts data
+      const refreshData = await authAPI.refresh()
+      
+      if (refreshData && refreshData.token) {
+        set({ token: refreshData.token })
+        get().startRefreshTimer()
+        return refreshData
+      } else {
+        throw new Error('No token in refresh response')
+      }
     } catch (error) {
       // Refresh failed, logout
       get().logout()
@@ -37,17 +80,37 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       const data = await authAPI.login({ email, password })
+      
+      if (!data || !data.token) {
+        throw new Error('No se recibió token de autenticación')
+      }
+      
+      // Set token first so getPerfil can use it
+      set({ token: data.token })
+      
+      // Fetch full profile to get nombres/apellidos at root level
+      const profile = await authAPI.getPerfil()
+      
       set({ 
-        user: data.usuario, 
+        user: profile, 
         token: data.token, 
         isAuthenticated: true,
-        isLoading: false 
+        isLoading: false,
+        error: null
       })
       get().startRefreshTimer()
       return data
     } catch (error) {
-      set({ error: error.response?.data?.error || 'Error al iniciar sesión', isLoading: false })
-      throw error
+      const errorMessage = error.response?.data?.error || error.message || 'Error al iniciar sesión'
+      set({ 
+        error: errorMessage, 
+        isLoading: false,
+        isAuthenticated: false,
+        user: null,
+        token: null
+      })
+      // Don't throw - error is already set in state for UI to display
+      return null
     }
   },
 
@@ -55,11 +118,16 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       const data = await authAPI.registroCliente(userData)
+      
+      // Fetch full profile to get nombres/apellidos at root level
+      const profile = await authAPI.getPerfil()
+      
       set({ 
-        user: data.usuario, 
+        user: profile, 
         token: data.token, 
         isAuthenticated: true,
-        isLoading: false 
+        isLoading: false,
+        error: null
       })
       get().startRefreshTimer()
       return data
@@ -73,11 +141,16 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       const data = await authAPI.registroEntrenador(userData)
+      
+      // Fetch full profile to get nombres/apellidos at root level
+      const profile = await authAPI.getPerfil()
+      
       set({ 
-        user: data.usuario, 
+        user: profile, 
         token: data.token, 
         isAuthenticated: true,
-        isLoading: false 
+        isLoading: false,
+        error: null
       })
       get().startRefreshTimer()
       return data
@@ -109,7 +182,13 @@ export const useAuthStore = create((set, get) => ({
 
   updateUser: (userData) => {
     set((state) => ({ 
-      user: { ...state.user, ...userData } 
+      user: {
+        ...state.user,
+        ...userData,
+        // Merge nested cliente/entrenador data properly
+        cliente: userData.cliente ? { ...state.user?.cliente, ...userData.cliente } : state.user?.cliente,
+        entrenador: userData.entrenador ? { ...state.user?.entrenador, ...userData.entrenador } : state.user?.entrenador
+      }
     }))
   },
 

@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'react-hot-toast'
 import { useAuthStore } from './store/authStore'
 
 // Layouts
@@ -10,6 +12,9 @@ import Login from './pages/auth/Login'
 import RegisterCliente from './pages/auth/RegisterCliente'
 import RegisterEntrenador from './pages/auth/RegisterEntrenador'
 import Dashboard from './pages/dashboard/Dashboard'
+import ViewProfile from './pages/perfil/ViewProfile'
+import EditProfile from './pages/perfil/EditProfile'
+import ChangePassword from './pages/perfil/ChangePassword'
 import ProtectedRoute from './routes/ProtectedRoute'
 
 // Create a client
@@ -24,10 +29,51 @@ const queryClient = new QueryClient({
 })
 
 function App() {
-  const { isAuthenticated } = useAuthStore()
+  const { isAuthenticated, isInitialized, initialize } = useAuthStore()
+
+  // Initialize auth state on app load
+  useEffect(() => {
+    initialize()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Show loading while checking auth status
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-text-secondary">Cargando...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#1a1a1a',
+            color: '#e5e5e5',
+            border: '1px solid #2a2a2a',
+          },
+          success: {
+            iconTheme: {
+              primary: '#9333ea',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
@@ -53,6 +99,9 @@ function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/perfil" element={<ViewProfile />} />
+            <Route path="/perfil/editar" element={<EditProfile />} />
+            <Route path="/perfil/cambiar-password" element={<ChangePassword />} />
             {/* Add more protected routes here */}
           </Route>
 

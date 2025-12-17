@@ -27,8 +27,10 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    // If 401 and not already retried, try to refresh token
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Don't retry if it's the refresh endpoint, login endpoint, or already retried
+    const isRefreshEndpoint = originalRequest.url?.includes('/auth/refresh')
+    const isLoginEndpoint = originalRequest.url?.includes('/auth/login')
+    if (error.response?.status === 401 && !originalRequest._retry && !isRefreshEndpoint && !isLoginEndpoint) {
       originalRequest._retry = true
 
       try {
@@ -44,8 +46,13 @@ api.interceptors.response.use(
         return api(originalRequest)
       } catch (refreshError) {
         // Refresh failed, logout user
+        const { isInitialized } = useAuthStore.getState()
         useAuthStore.getState().logout()
-        window.location.href = '/login'
+        
+        // Only redirect if app is already initialized (not during initial load)
+        if (isInitialized && window.location.pathname !== '/login') {
+          window.location.href = '/login'
+        }
         return Promise.reject(refreshError)
       }
     }

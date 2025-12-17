@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
 import { ROLES } from '../../utils/constants'
@@ -5,8 +6,22 @@ import { ROLES } from '../../utils/constants'
 export default function Navbar() {
   const { user, logout } = useAuthStore()
   const location = useLocation()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef(null)
 
   const isActive = (path) => location.pathname === path
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const getNavLinks = () => {
     if (!user) return []
@@ -80,19 +95,75 @@ export default function Navbar() {
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:flex flex-col items-end">
-              <span className="text-sm font-medium text-text-primary">
-                {user?.cliente?.nombres || user?.entrenador?.nombres || user?.email}
-              </span>
-              <span className="text-xs text-text-muted uppercase">{user?.rol}</span>
-            </div>
+          <div className="relative" ref={dropdownRef}>
             <button
-              onClick={logout}
-              className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-status-error transition-colors"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-dark-surface transition-colors"
             >
-              Salir
+              {/* Avatar */}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-sm font-bold">
+                {user?.nombres?.[0]}{user?.apellidos?.[0]}
+              </div>
+              {/* User Info */}
+              <div className="hidden sm:flex flex-col items-start">
+                <span className="text-sm font-medium text-text-primary">
+                  {user?.nombres} {user?.apellidos}
+                </span>
+                <span className="text-xs text-text-muted uppercase">{user?.rol}</span>
+              </div>
+              {/* Dropdown Arrow */}
+              <svg
+                className={`w-4 h-4 text-text-secondary transition-transform ${
+                  isDropdownOpen ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-dark-card border border-dark-border rounded-lg shadow-lg py-2 z-50">
+                <Link
+                  to="/perfil"
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface transition-colors"
+                >
+                  <span className="text-lg">👤</span>
+                  <span>Ver Perfil</span>
+                </Link>
+                <Link
+                  to="/perfil/editar"
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface transition-colors"
+                >
+                  <span className="text-lg">✏️</span>
+                  <span>Editar Perfil</span>
+                </Link>
+                <Link
+                  to="/perfil/cambiar-password"
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface transition-colors"
+                >
+                  <span className="text-lg">🔒</span>
+                  <span>Cambiar Contraseña</span>
+                </Link>
+                <div className="border-t border-dark-border my-2"></div>
+                <button
+                  onClick={() => {
+                    setIsDropdownOpen(false)
+                    logout()
+                  }}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-status-error hover:bg-dark-surface transition-colors w-full text-left"
+                >
+                  <span className="text-lg">🚪</span>
+                  <span>Cerrar Sesión</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
