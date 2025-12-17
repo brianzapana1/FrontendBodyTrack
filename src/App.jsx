@@ -20,6 +20,9 @@ import Progreso from './pages/progreso/Progreso'
 import Ejercicios from './pages/ejercicios/Ejercicios'
 import Rutinas from './pages/rutinas/Rutinas'
 import MiRutina from './pages/rutinas/MiRutina'
+import Planes from './pages/suscripciones/Planes'
+import MiSuscripcion from './pages/suscripciones/MiSuscripcion'
+import Checkout from './pages/suscripciones/Checkout'
 import ProtectedRoute from './routes/ProtectedRoute'
 
 // Create a client
@@ -113,6 +116,9 @@ function App() {
             <Route path="/ejercicios" element={<Ejercicios />} />
             <Route path="/rutinas" element={<Rutinas />} />
             <Route path="/mi-rutina" element={<MiRutina />} />
+            <Route path="/planes" element={<Planes />} />
+            <Route path="/mi-suscripcion" element={<MiSuscripcion />} />
+            <Route path="/checkout" element={<Checkout />} />
             {/* Add more protected routes here */}
           </Route>
 

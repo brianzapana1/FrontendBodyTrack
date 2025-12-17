@@ -37,6 +37,7 @@ export default function Navbar() {
         ...baseLinks,
         { path: '/mi-rutina', label: 'Mi Rutina', icon: '💪' },
         { path: '/mi-progreso', label: 'Progreso', icon: '📈' },
+        { path: '/mi-suscripcion', label: 'Suscripción', icon: '👑' },
         { path: '/foro', label: 'Foro', icon: '💬' }
       ]
     }
