@@ -195,27 +195,23 @@ export default function DashboardCliente() {
         )}
       </div>
 
-      {/* Plan y Suscripción */}
-      <div className="card bg-gradient-to-br from-primary/10 to-accent-gold/10 border border-primary/20">
-        <div className="flex items-center gap-4">
-          <div className="text-5xl">⭐</div>
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold mb-1">Plan {cliente?.plan || 'BASICO'}</h3>
-            <p className="text-text-secondary-light dark:text-text-secondary text-sm">
-              {cliente?.plan === 'PRO' 
-                ? 'Disfruta de todas las funciones premium'
-                : cliente?.plan === 'PREMIUM'
-                ? 'Acceso a rutinas avanzadas y estadísticas'
-                : 'Mejora tu plan para más beneficios'}
-            </p>
-          </div>
-          {cliente?.plan !== 'PRO' && (
-            <Link to="/suscripciones" className="btn-gold">
+      {/* Plan y Suscripción - Only show upgrade prompt for FREE users */}
+      {cliente?.plan !== 'PREMIUM' && (
+        <div className="card bg-gradient-to-br from-primary/10 to-accent-gold/10 border border-primary/20">
+          <div className="flex items-center gap-4">
+            <div className="text-5xl">⭐</div>
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold mb-1">Plan {cliente?.plan || 'FREE'}</h3>
+              <p className="text-text-secondary-light dark:text-text-secondary text-sm">
+                Mejora tu plan para acceder a rutinas personalizadas y más beneficios
+              </p>
+            </div>
+            <Link to="/planes" className="btn-gold">
               Mejorar Plan
             </Link>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Modal de Detalle de Progreso */}
       {registroSeleccionado && (

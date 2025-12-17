@@ -1,10 +1,27 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
+import { useThemeStore } from '../../store/themeStore'
 import { ROLES } from '../../utils/constants'
+import { useState, useRef, useEffect } from 'react'
 
 export default function Sidebar() {
-  const { user } = useAuthStore()
+  const { user, logout } = useAuthStore()
+  const { theme, toggleTheme } = useThemeStore()
   const location = useLocation()
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const dropdownRef = useRef(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const isActive = (path) => location.pathname === path
 
@@ -23,7 +40,7 @@ export default function Sidebar() {
         { path: '/ejercicios', label: 'Ejercicios', icon: '🏋️' },
         { path: '/mi-rutina', label: 'Mi Rutina', icon: '💪' },
         { path: '/foro', label: 'Foro', icon: '💬' },
-        { path: '/suscripcion', label: 'Suscripción', icon: '💳' }
+        { path: '/mi-suscripcion', label: 'Suscripción', icon: '💳' }
       ]
     }
 
@@ -92,21 +109,110 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Footer */}
-      <div className="p-6 border-t border-light-border dark:border-dark-border">
-        <div className="card p-4 bg-gradient-to-br from-primary/20 to-primary-light/20 border-primary/30">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-2xl">🏆</span>
-            <span className="font-semibold text-sm">Actualiza a PRO</span>
-          </div>
-          <p className="text-xs text-text-secondary-light dark:text-text-secondary mb-3">
-            Desbloquea todas las funciones premium
-          </p>
-          <button className="btn-gold w-full text-sm py-2">
-            Ver Planes
+      {/* User Menu Section */}
+      <div className="border-t border-light-border dark:border-dark-border">
+        <div className="p-4 relative" ref={dropdownRef}>
+          <button
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
+          >
+            {/* Avatar */}
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-sm font-bold flex-shrink-0">
+              {user?.nombres?.[0]}{user?.apellidos?.[0]}
+            </div>
+            {/* User Info */}
+            <div className="flex-1 text-left overflow-hidden">
+              <div className="text-sm font-medium text-text-primary-light dark:text-text-primary truncate">
+                {user?.nombres} {user?.apellidos}
+              </div>
+              <div className="text-xs text-text-muted-light dark:text-text-muted uppercase">
+                {user?.rol}
+              </div>
+            </div>
+            {/* Dropdown Arrow */}
+            <svg
+              className={`w-4 h-4 text-text-secondary-light dark:text-text-secondary transition-transform flex-shrink-0 ${
+                isUserMenuOpen ? 'rotate-180' : ''
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
+
+          {/* Dropdown Menu */}
+          {isUserMenuOpen && (
+            <div className="absolute bottom-full left-4 right-4 mb-2 bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg shadow-lg py-2 z-50">
+              <Link
+                to="/perfil"
+                onClick={() => setIsUserMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
+              >
+                <span className="text-lg">👤</span>
+                <span>Ver Perfil</span>
+              </Link>
+              <Link
+                to="/perfil/editar"
+                onClick={() => setIsUserMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
+              >
+                <span className="text-lg">✏️</span>
+                <span>Editar Perfil</span>
+              </Link>
+              <Link
+                to="/perfil/cambiar-password"
+                onClick={() => setIsUserMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
+              >
+                <span className="text-lg">🔒</span>
+                <span>Cambiar Contraseña</span>
+              </Link>
+              <div className="border-t border-light-border dark:border-dark-border my-2"></div>
+              <button
+                onClick={() => {
+                  toggleTheme()
+                  setIsUserMenuOpen(false)
+                }}
+                className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors w-full text-left"
+              >
+                <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
+                <span>{theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}</span>
+              </button>
+              <div className="border-t border-light-border dark:border-dark-border my-2"></div>
+              <button
+                onClick={() => {
+                  setIsUserMenuOpen(false)
+                  logout()
+                }}
+                className="flex items-center gap-3 px-4 py-2 text-sm text-status-error-light dark:text-status-error hover:bg-light-surface dark:hover:bg-dark-surface transition-colors w-full text-left"
+              >
+                <span className="text-lg">🚪</span>
+                <span>Cerrar Sesión</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Footer - Premium Upgrade (only for FREE users) */}
+      {user?.rol === ROLES.CLIENTE && user?.cliente?.plan !== 'PREMIUM' && (
+        <div className="p-6 border-t border-light-border dark:border-dark-border">
+          <div className="card p-4 bg-gradient-to-br from-primary/20 to-primary-light/20 border-primary/30">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">🏆</span>
+              <span className="font-semibold text-sm">Actualiza a Premium</span>
+            </div>
+            <p className="text-xs text-text-secondary-light dark:text-text-secondary mb-3">
+              Desbloquea todas las funciones premium
+            </p>
+            <Link to="/planes" className="btn-gold w-full text-sm py-2 block text-center">
+              Ver Planes
+            </Link>
+          </div>
+        </div>
+      )}
     </aside>
   )
 }

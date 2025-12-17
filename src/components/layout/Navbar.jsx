@@ -35,9 +35,8 @@ export default function Navbar() {
     if (user.rol === ROLES.CLIENTE) {
       return [
         ...baseLinks,
-        { path: '/mi-rutina', label: 'Mi Rutina', icon: '💪' },
-        { path: '/mi-progreso', label: 'Progreso', icon: '📈' },
-        { path: '/mi-suscripcion', label: 'Suscripción', icon: '👑' },
+        { path: '/mi-rutina', label: 'Rutina', icon: '💪' },
+        { path: '/progreso', label: 'Progreso', icon: '📈' },
         { path: '/foro', label: 'Foro', icon: '💬' }
       ]
     }
@@ -47,8 +46,7 @@ export default function Navbar() {
         ...baseLinks,
         { path: '/clientes', label: 'Clientes', icon: '👥' },
         { path: '/rutinas', label: 'Rutinas', icon: '📋' },
-        { path: '/ejercicios', label: 'Ejercicios', icon: '🏋️' },
-        { path: '/foro', label: 'Foro', icon: '💬' }
+        { path: '/ejercicios', label: 'Ejercicios', icon: '🏋️' }
       ]
     }
 
@@ -57,7 +55,6 @@ export default function Navbar() {
         ...baseLinks,
         { path: '/usuarios', label: 'Usuarios', icon: '👥' },
         { path: '/rutinas', label: 'Rutinas', icon: '📋' },
-        { path: '/ejercicios', label: 'Ejercicios', icon: '🏋️' },
         { path: '/suscripciones', label: 'Suscripciones', icon: '💳' }
       ]
     }
@@ -68,9 +65,29 @@ export default function Navbar() {
   const navLinks = getNavLinks()
 
   return (
-    <nav className="bg-light-card dark:bg-dark-card border-b border-light-border dark:border-dark-border sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <>
+      {/* Desktop Top Bar - Only theme toggle */}
+      <nav className="hidden lg:block bg-light-card dark:bg-dark-card border-b border-light-border dark:border-dark-border sticky top-0 z-40">
+        <div className="px-6 h-16 flex items-center justify-between">
+          {/* Page Title - Optional */}
+          <div className="text-lg font-semibold text-text-primary-light dark:text-text-primary">
+            {/* Dynamic title can go here */}
+          </div>
+
+          {/* Theme Toggle - Desktop only */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
+            title={theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
+          >
+            <span className="text-2xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Top Bar */}
+      <nav className="lg:hidden bg-light-card dark:bg-dark-card border-b border-light-border dark:border-dark-border sticky top-0 z-50">
+        <div className="px-4 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center gap-2">
             <span className="text-2xl">💪</span>
@@ -79,40 +96,15 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Navigation Links - Desktop */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                  isActive(link.path)
-                    ? 'text-primary bg-primary/10'
-                    : 'text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface'
-                }`}
-              >
-                <span>{link.icon}</span>
-                <span className="font-medium">{link.label}</span>
-              </Link>
-            ))}
-          </div>
-
           {/* User Menu */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
             >
               {/* Avatar */}
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-sm font-bold">
                 {user?.nombres?.[0]}{user?.apellidos?.[0]}
-              </div>
-              {/* User Info */}
-              <div className="hidden sm:flex flex-col items-start">
-                <span className="text-sm font-medium text-text-primary-light dark:text-text-primary">
-                  {user?.nombres} {user?.apellidos}
-                </span>
-                <span className="text-xs text-text-muted-light dark:text-text-muted uppercase">{user?.rol}</span>
               </div>
               {/* Dropdown Arrow */}
               <svg
@@ -179,27 +171,30 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Navigation */}
-      <div className="md:hidden border-t border-light-border dark:border-dark-border">
-        <div className="flex justify-around py-2">
+      {/* Mobile Bottom Navigation - Fixed at bottom */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-light-card dark:bg-dark-card border-t border-light-border dark:border-dark-border z-50 safe-area-inset-bottom">
+        <div className="grid grid-cols-4 gap-1 px-2 py-2">
           {navLinks.slice(0, 4).map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition-colors ${
                 isActive(link.path)
-                  ? 'text-primary'
+                  ? 'text-primary bg-primary/10'
                   : 'text-text-secondary-light dark:text-text-secondary'
               }`}
             >
               <span className="text-xl">{link.icon}</span>
-              <span className="text-xs">{link.label}</span>
+              <span className="text-xs font-medium">{link.label}</span>
             </Link>
           ))}
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Spacer for mobile bottom nav */}
+      <div className="lg:hidden h-20"></div>
+    </>
   )
 }

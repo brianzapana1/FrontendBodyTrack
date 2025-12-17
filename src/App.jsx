@@ -23,6 +23,12 @@ import MiRutina from './pages/rutinas/MiRutina'
 import Planes from './pages/suscripciones/Planes'
 import MiSuscripcion from './pages/suscripciones/MiSuscripcion'
 import Checkout from './pages/suscripciones/Checkout'
+import Foro from './pages/foro/Foro'
+import Clientes from './pages/clientes/Clientes'
+import Estadisticas from './pages/estadisticas/Estadisticas'
+import Usuarios from './pages/admin/Usuarios'
+import Entrenadores from './pages/admin/Entrenadores'
+import Suscripciones from './pages/admin/Suscripciones'
 import ProtectedRoute from './routes/ProtectedRoute'
 
 // Create a client
@@ -116,6 +122,12 @@ function App() {
             <Route path="/ejercicios" element={<Ejercicios />} />
             <Route path="/rutinas" element={<Rutinas />} />
             <Route path="/mi-rutina" element={<MiRutina />} />
+            <Route path="/foro" element={<Foro />} />
+            <Route path="/clientes" element={<Clientes />} />
+            <Route path="/estadisticas" element={<Estadisticas />} />
+            <Route path="/usuarios" element={<Usuarios />} />
+            <Route path="/entrenadores" element={<Entrenadores />} />
+            <Route path="/suscripciones" element={<Suscripciones />} />
             <Route path="/planes" element={<Planes />} />
             <Route path="/mi-suscripcion" element={<MiSuscripcion />} />
             <Route path="/checkout" element={<Checkout />} />
