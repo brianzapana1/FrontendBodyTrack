@@ -1,10 +1,11 @@
 import { useAuthStore } from '../../store/authStore'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { adminAPI } from '../../api/endpoints/admin'
 
 export default function DashboardAdmin() {
   const { user, isAuthenticated } = useAuthStore()
+  const navigate = useNavigate()
 
   // Fetch admin statistics - only when authenticated as admin
   const { data: stats, isLoading, error } = useQuery({
@@ -102,15 +103,24 @@ export default function DashboardAdmin() {
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Acciones de Administración</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Link to="/admin/usuarios" className="btn-primary text-center">
+          <button 
+            onClick={() => navigate('/admin/usuarios')}
+            className="btn-primary text-center"
+          >
             👥 Gestionar Usuarios
-          </Link>
-          <Link to="/admin/suscripciones" className="btn-secondary text-center">
+          </button>
+          <button 
+            onClick={() => navigate('/admin/suscripciones')}
+            className="btn-secondary text-center"
+          >
             ⭐ Verificar Suscripciones
-          </Link>
-          <Link to="/admin/estadisticas" className="btn-secondary text-center">
+          </button>
+          <button 
+            onClick={() => navigate('/admin/estadisticas')}
+            className="btn-secondary text-center"
+          >
             📊 Ver Estadísticas
-          </Link>
+          </button>
         </div>
       </div>
 

@@ -1,8 +1,9 @@
 import { useAuthStore } from '../../store/authStore'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function DashboardEntrenador() {
   const { user } = useAuthStore()
+  const navigate = useNavigate()
   const entrenador = user?.entrenador
 
   return (
@@ -10,7 +11,7 @@ export default function DashboardEntrenador() {
       {/* Welcome Section */}
       <div className="card card-hover">
         <h1 className="text-heading-2 font-bold mb-2">
-          ¡Hola, {entrenador?.nombres}! 💪
+          ¡Hola, {user?.nombres || entrenador?.nombres}! 💪
         </h1>
         <p className="text-text-secondary-light dark:text-text-secondary">
           {entrenador?.especialidad || 'Entrenador Personal'} - Gestiona tus clientes y rutinas
@@ -67,15 +68,24 @@ export default function DashboardEntrenador() {
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Acciones Rápidas</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Link to="/rutinas/crear" className="btn-primary text-center">
+          <button 
+            onClick={() => navigate('/rutinas/crear')}
+            className="btn-primary text-center"
+          >
             📋 Crear Rutina
-          </Link>
-          <Link to="/ejercicios/crear" className="btn-secondary text-center">
+          </button>
+          <button 
+            onClick={() => navigate('/ejercicios/crear')}
+            className="btn-secondary text-center"
+          >
             💪 Agregar Ejercicio
-          </Link>
-          <Link to="/clientes" className="btn-secondary text-center">
+          </button>
+          <button 
+            onClick={() => navigate('/clientes')}
+            className="btn-secondary text-center"
+          >
             👥 Ver Clientes
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -96,9 +106,12 @@ export default function DashboardEntrenador() {
               </span>
             )}
           </div>
-          <Link to="/perfil/editar" className="btn-secondary">
+          <button 
+            onClick={() => navigate('/perfil/editar')}
+            className="btn-secondary"
+          >
             Editar Perfil
-          </Link>
+          </button>
         </div>
       </div>
 

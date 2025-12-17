@@ -16,7 +16,9 @@ export default function RegisterCliente() {
     apellidos: '',
     telefono: '',
     fechaNacimiento: '',
-    genero: ''
+    genero: '',
+    peso: '',
+    altura: ''
   })
 
   const handleSubmit = async (e) => {
@@ -220,6 +222,44 @@ export default function RegisterCliente() {
                     <option value="F">Femenino</option>
                     <option value="Otro">Otro</option>
                   </select>
+                </div>
+
+                <div>
+                  <label htmlFor="peso" className="label">
+                    Peso (kg) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="peso"
+                    name="peso"
+                    value={formData.peso}
+                    onChange={handleChange}
+                    className="input"
+                    placeholder="75.5"
+                    required
+                    min="30"
+                    max="300"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="altura" className="label">
+                    Altura (cm) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="altura"
+                    name="altura"
+                    value={formData.altura}
+                    onChange={handleChange}
+                    className="input"
+                    placeholder="175"
+                    required
+                    min="100"
+                    max="250"
+                  />
                 </div>
               </div>
             </div>

@@ -41,6 +41,12 @@ export const authAPI = {
     return data
   },
 
+  // Actualizar perfil del usuario
+  actualizarPerfil: async (profileData) => {
+    const { data } = await api.put('/api/auth/perfil', profileData)
+    return data
+  },
+
   // Cambiar contraseña
   cambiarPassword: async (passwords) => {
     const { data } = await api.post('/api/auth/cambiar-password', passwords)

@@ -19,8 +19,8 @@ export default function Sidebar() {
     if (user.rol === ROLES.CLIENTE) {
       return [
         ...baseItems,
+        { path: '/progreso', label: 'Mi Progreso', icon: '📈' },
         { path: '/mi-rutina', label: 'Mi Rutina', icon: '💪' },
-        { path: '/mi-progreso', label: 'Mi Progreso', icon: '📈' },
         { path: '/foro', label: 'Foro', icon: '💬' },
         { path: '/suscripcion', label: 'Suscripción', icon: '💳' }
       ]

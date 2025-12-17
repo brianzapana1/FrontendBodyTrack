@@ -37,7 +37,10 @@ export const useProfile = () => {
       const { rol } = user
 
       // Route to appropriate endpoint based on role
-      if (rol === 'CLIENTE' && user.cliente?.id) {
+      if (rol === 'ADMIN') {
+        // Admin updates Usuario table directly
+        return await authAPI.actualizarPerfil(data)
+      } else if (rol === 'CLIENTE' && user.cliente?.id) {
         return await clientesAPI.update(user.cliente.id, data)
       } else if (rol === 'ENTRENADOR' && user.entrenador?.id) {
         return await entrenadoresAPI.update(user.entrenador.id, data)
