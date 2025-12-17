@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search, Filter, X } from 'lucide-react'
 import CardEjercicio from './CardEjercicio'
 import { useEjercicios, useGruposMusculares } from '../../hooks/useEjercicios'
@@ -7,10 +7,20 @@ import { useEjercicios, useGruposMusculares } from '../../hooks/useEjercicios'
  * Componente que muestra la lista de ejercicios con filtros y búsqueda
  */
 export default function ListaEjercicios({ onVer, onEditar, onEliminar }) {
-  const [busqueda, setBusqueda] = useState('')
+  const [busquedaInput, setBusquedaInput] = useState('') // Input del usuario
+  const [busqueda, setBusqueda] = useState('') // Valor debouncedo para la query
   const [grupoMuscular, setGrupoMuscular] = useState('')
   const [equipamiento, setEquipamiento] = useState('')
   const [mostrarFiltros, setMostrarFiltros] = useState(false)
+
+  // Debounce de la búsqueda (esperar 300ms después de que el usuario deja de escribir)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBusqueda(busquedaInput)
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [busquedaInput])
 
   // Queries
   const { data: gruposMusculares = [] } = useGruposMusculares()
@@ -31,6 +41,7 @@ export default function ListaEjercicios({ onVer, onEditar, onEliminar }) {
 
   // Limpiar todos los filtros
   const limpiarFiltros = () => {
+    setBusquedaInput('')
     setBusqueda('')
     setGrupoMuscular('')
     setEquipamiento('')
@@ -38,22 +49,6 @@ export default function ListaEjercicios({ onVer, onEditar, onEliminar }) {
 
   // Verificar si hay filtros activos
   const hayFiltrosActivos = busqueda || grupoMuscular || equipamiento
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-        <p className="text-red-600">Error al cargar ejercicios: {error.message}</p>
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6">
@@ -66,8 +61,8 @@ export default function ListaEjercicios({ onVer, onEditar, onEliminar }) {
             <input
               type="text"
               placeholder="Buscar ejercicios por nombre o descripción..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              value={busquedaInput}
+              onChange={(e) => setBusquedaInput(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -146,14 +141,30 @@ export default function ListaEjercicios({ onVer, onEditar, onEliminar }) {
 
       {/* Contador de resultados */}
       <div className="flex justify-between items-center">
-        <p className="text-gray-600">
-          {ejercicios.length} {ejercicios.length === 1 ? 'ejercicio' : 'ejercicios'} encontrado
-          {ejercicios.length !== 1 ? 's' : ''}
-        </p>
+        <div className="text-gray-600">
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              Cargando...
+            </span>
+          ) : (
+            <span>
+              {ejercicios.length} {ejercicios.length === 1 ? 'ejercicio' : 'ejercicios'} encontrado
+              {ejercicios.length !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+          <p className="text-red-600">Error al cargar ejercicios: {error.message}</p>
+        </div>
+      )}
+
       {/* Grid de ejercicios */}
-      {ejercicios.length === 0 ? (
+      {!error && ejercicios.length === 0 && !isLoading ? (
         <div className="bg-gray-50 rounded-lg p-12 text-center">
           <p className="text-gray-500 text-lg">
             {hayFiltrosActivos
