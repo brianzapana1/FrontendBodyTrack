@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class', // Enable dark mode with class strategy
   theme: {
     extend: {
       colors: {
@@ -18,6 +19,7 @@ export default {
           gold: '#FFD700',
           teal: '#00E676',
           orange: '#FFAB00',
+          purple: '#9333ea',
         },
         // Dark Theme UI Colors
         dark: {
@@ -26,17 +28,31 @@ export default {
           surface: '#1E1E1E',
           border: '#27272A',
         },
+        // Light Theme UI Colors
+        light: {
+          bg: '#FAFAFA',
+          card: '#FFFFFF',
+          surface: '#F5F5F5',
+          border: '#E5E5E5',
+        },
         // Semantic Status Colors
         status: {
           error: '#FF1744',
+          'error-light': '#DC2626',
           success: '#00E676',
+          'success-light': '#00C853',
           warning: '#FFAB00',
+          'warning-light': '#F59E0B',
         },
-        // Text Colors
+        // Text Colors (Dark Theme)
         text: {
           primary: '#FFFFFF',
           secondary: '#A1A1AA',
           muted: '#52525B',
+          // Light Theme
+          'primary-light': '#0A0A0A',
+          'secondary-light': '#525252',
+          'muted-light': '#A3A3A3',
         }
       },
       boxShadow: {

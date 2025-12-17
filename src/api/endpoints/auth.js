@@ -32,8 +32,12 @@ export const authAPI = {
   },
 
   // Obtener perfil del usuario autenticado
-  getPerfil: async () => {
-    const { data } = await api.get('/api/auth/perfil')
+  getPerfil: async (token = null) => {
+    const config = {}
+    if (token) {
+      config.headers = { Authorization: `Bearer ${token}` }
+    }
+    const { data } = await api.get('/api/auth/perfil', config)
     return data
   },
 

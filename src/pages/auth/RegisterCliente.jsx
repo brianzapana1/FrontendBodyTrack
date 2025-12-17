@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
+import { useThemeStore } from '../../store/themeStore'
 
 export default function RegisterCliente() {
   const navigate = useNavigate()
   const { registroCliente, isLoading, error } = useAuthStore()
+  const { theme, toggleTheme } = useThemeStore()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -43,7 +45,7 @@ export default function RegisterCliente() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -231,8 +233,8 @@ export default function RegisterCliente() {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-dark-border text-center">
-            <p className="text-sm text-text-secondary">
+          <div className="mt-6 pt-6 border-t border-light-border dark:border-dark-border text-center">
+            <p className="text-sm text-text-secondary-light dark:text-text-secondary">
               ¿Ya tienes una cuenta?{' '}
               <Link to="/login" className="text-primary hover:text-primary-light font-medium">
                 Iniciar Sesión
@@ -241,6 +243,17 @@ export default function RegisterCliente() {
           </div>
         </div>
       </div>
+
+      {/* Floating Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className="fixed bottom-6 right-6 p-4 bg-light-card dark:bg-dark-card border-2 border-light-border dark:border-dark-border rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 z-50"
+        aria-label="Toggle theme"
+      >
+        <span className="text-2xl">
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </span>
+      </button>
     </div>
   )
 }

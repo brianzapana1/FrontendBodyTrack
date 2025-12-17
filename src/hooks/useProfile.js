@@ -23,7 +23,7 @@ export const useProfile = () => {
   } = useQuery({
     queryKey: ['profile', user?.id],
     queryFn: async () => {
-      // authAPI.getPerfil() already extracts data from response
+      // authAPI.getPerfil() uses token from store via interceptor
       return await authAPI.getPerfil()
     },
     enabled: !!user,

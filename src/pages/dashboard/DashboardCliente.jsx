@@ -12,7 +12,7 @@ export default function DashboardCliente() {
         <h1 className="text-heading-2 font-bold mb-2">
           ¡Bienvenido, {cliente?.nombres}! 👋
         </h1>
-        <p className="text-text-secondary">
+        <p className="text-text-secondary-light dark:text-text-secondary">
           Revisa tu progreso, rutinas y mantente en forma.
         </p>
       </div>
@@ -24,7 +24,7 @@ export default function DashboardCliente() {
           <div className="text-3xl font-bold text-primary mb-1">
             {cliente?.peso || '--'} kg
           </div>
-          <div className="text-sm text-text-secondary">Peso Actual</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Peso Actual</div>
         </div>
 
         <div className="card card-hover text-center">
@@ -32,7 +32,7 @@ export default function DashboardCliente() {
           <div className="text-3xl font-bold text-accent-teal mb-1">
             {cliente?.altura || '--'} cm
           </div>
-          <div className="text-sm text-text-secondary">Altura</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Altura</div>
         </div>
 
         <div className="card card-hover text-center">
@@ -40,7 +40,7 @@ export default function DashboardCliente() {
           <div className="text-3xl font-bold text-accent-gold mb-1">
             {cliente?.plan || 'BASICO'}
           </div>
-          <div className="text-sm text-text-secondary">Plan Actual</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Plan Actual</div>
         </div>
 
         <div className="card card-hover text-center">
@@ -48,7 +48,7 @@ export default function DashboardCliente() {
           <div className="text-3xl font-bold text-accent-orange mb-1">
             {cliente?.entrenadorId ? '✓' : '✗'}
           </div>
-          <div className="text-sm text-text-secondary">
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">
             {cliente?.entrenadorId ? 'Con Entrenador' : 'Sin Entrenador'}
           </div>
         </div>
@@ -98,8 +98,8 @@ export default function DashboardCliente() {
             Ver historial →
           </Link>
         </div>
-        <div className="bg-dark-surface p-4 rounded-lg text-center">
-          <p className="text-text-secondary mb-3">
+        <div className="bg-light-surface dark:bg-dark-surface p-4 rounded-lg text-center">
+          <p className="text-text-secondary-light dark:text-text-secondary mb-3">
             Aún no has registrado tu progreso
           </p>
           <Link to="/progreso/nuevo" className="btn-primary inline-block">
@@ -114,7 +114,7 @@ export default function DashboardCliente() {
           <div className="text-5xl">⭐</div>
           <div className="flex-1">
             <h3 className="text-xl font-semibold mb-1">Plan {cliente?.plan || 'BASICO'}</h3>
-            <p className="text-text-secondary text-sm">
+            <p className="text-text-secondary-light dark:text-text-secondary text-sm">
               {cliente?.plan === 'PRO' 
                 ? 'Disfruta de todas las funciones premium'
                 : cliente?.plan === 'PREMIUM'

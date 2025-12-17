@@ -1,8 +1,19 @@
 import { useAuthStore } from '../../store/authStore'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { adminAPI } from '../../api/endpoints/admin'
 
 export default function DashboardAdmin() {
-  const { user } = useAuthStore()
+  const { user, isAuthenticated } = useAuthStore()
+
+  // Fetch admin statistics - only when authenticated as admin
+  const { data: stats, isLoading, error } = useQuery({
+    queryKey: ['admin', 'estadisticas'],
+    queryFn: adminAPI.getEstadisticas,
+    enabled: isAuthenticated && user?.rol === 'ADMIN',
+    refetchInterval: 30000, // Refresh every 30 seconds
+    retry: 1
+  })
 
   return (
     <div className="space-y-6">
@@ -11,10 +22,19 @@ export default function DashboardAdmin() {
         <h1 className="text-heading-2 font-bold mb-2">
           Panel de Administración 🛡️
         </h1>
-        <p className="text-text-secondary">
+        <p className="text-text-secondary-light dark:text-text-secondary">
           Gestión completa del sistema BodyTrack
         </p>
       </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className="card bg-status-error/10 border border-status-error">
+          <p className="text-status-error">
+            Error al cargar estadísticas: {error.message}
+          </p>
+        </div>
+      )}
 
       {/* Stats Grid - Usuarios */}
       <div>
@@ -22,20 +42,26 @@ export default function DashboardAdmin() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">👥</div>
-            <div className="text-3xl font-bold text-primary mb-1">0</div>
-            <div className="text-sm text-text-secondary">Clientes</div>
+            <div className="text-3xl font-bold text-primary mb-1">
+              {isLoading ? '...' : stats?.usuarios?.clientes || 0}
+            </div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Clientes</div>
           </div>
 
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">💪</div>
-            <div className="text-3xl font-bold text-accent-teal mb-1">0</div>
-            <div className="text-sm text-text-secondary">Entrenadores</div>
+            <div className="text-3xl font-bold text-accent-teal mb-1">
+              {isLoading ? '...' : stats?.usuarios?.entrenadores || 0}
+            </div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Entrenadores</div>
           </div>
 
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">🛡️</div>
-            <div className="text-3xl font-bold text-accent-orange mb-1">1</div>
-            <div className="text-sm text-text-secondary">Administradores</div>
+            <div className="text-3xl font-bold text-accent-orange mb-1">
+              {isLoading ? '...' : stats?.usuarios?.administradores || 0}
+            </div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Administradores</div>
           </div>
         </div>
       </div>
@@ -47,25 +73,27 @@ export default function DashboardAdmin() {
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">💰</div>
             <div className="text-3xl font-bold text-accent-gold mb-1">$0</div>
-            <div className="text-sm text-text-secondary">Ingresos Mes</div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Ingresos Mes</div>
           </div>
 
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">⭐</div>
-            <div className="text-3xl font-bold text-primary mb-1">0</div>
-            <div className="text-sm text-text-secondary">Suscripciones Activas</div>
+            <div className="text-3xl font-bold text-primary mb-1">
+              {isLoading ? '...' : stats?.suscripciones?.activas || 0}
+            </div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Suscripciones Activas</div>
           </div>
 
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">📈</div>
             <div className="text-3xl font-bold text-accent-teal mb-1">0%</div>
-            <div className="text-sm text-text-secondary">Crecimiento</div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Crecimiento</div>
           </div>
 
           <div className="card card-hover text-center">
             <div className="text-4xl mb-2">⚠️</div>
             <div className="text-3xl font-bold text-status-error mb-1">0</div>
-            <div className="text-sm text-text-secondary">Por Expirar</div>
+            <div className="text-sm text-text-secondary-light dark:text-text-secondary">Por Expirar</div>
           </div>
         </div>
       </div>
@@ -90,34 +118,34 @@ export default function DashboardAdmin() {
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Estado del Sistema</h2>
         <div className="space-y-3">
-          <div className="flex items-center justify-between p-3 bg-dark-surface rounded-lg">
+          <div className="flex items-center justify-between p-3 bg-light-surface dark:bg-dark-surface rounded-lg">
             <div className="flex items-center gap-3">
               <span className="text-2xl">✅</span>
               <div>
                 <p className="font-medium">Base de Datos</p>
-                <p className="text-sm text-text-secondary">Conexión estable</p>
+                <p className="text-sm text-text-secondary-light dark:text-text-secondary">Conexión estable</p>
               </div>
             </div>
             <span className="text-status-success text-sm font-semibold">Activo</span>
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-dark-surface rounded-lg">
+          <div className="flex items-center justify-between p-3 bg-light-surface dark:bg-dark-surface rounded-lg">
             <div className="flex items-center gap-3">
               <span className="text-2xl">✅</span>
               <div>
                 <p className="font-medium">API Backend</p>
-                <p className="text-sm text-text-secondary">Respondiendo correctamente</p>
+                <p className="text-sm text-text-secondary-light dark:text-text-secondary">Respondiendo correctamente</p>
               </div>
             </div>
             <span className="text-status-success text-sm font-semibold">Activo</span>
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-dark-surface rounded-lg">
+          <div className="flex items-center justify-between p-3 bg-light-surface dark:bg-dark-surface rounded-lg">
             <div className="flex items-center gap-3">
               <span className="text-2xl">✅</span>
               <div>
                 <p className="font-medium">Almacenamiento</p>
-                <p className="text-sm text-text-secondary">85% disponible</p>
+                <p className="text-sm text-text-secondary-light dark:text-text-secondary">85% disponible</p>
               </div>
             </div>
             <span className="text-status-success text-sm font-semibold">Normal</span>

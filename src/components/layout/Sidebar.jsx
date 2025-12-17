@@ -55,16 +55,16 @@ export default function Sidebar() {
   const menuItems = getMenuItems()
 
   return (
-    <aside className="hidden lg:flex lg:flex-col w-64 bg-dark-card border-r border-dark-border h-screen fixed left-0 top-0">
+    <aside className="hidden lg:flex lg:flex-col w-64 bg-light-card dark:bg-dark-card border-r border-light-border dark:border-dark-border h-screen fixed left-0 top-0">
       {/* Logo */}
-      <div className="p-6 border-b border-dark-border">
+      <div className="p-6 border-b border-light-border dark:border-dark-border">
         <Link to="/dashboard" className="flex items-center gap-3">
           <span className="text-3xl">💪</span>
           <div>
             <span className="font-display text-xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent block">
               BodyTrack
             </span>
-            <span className="text-xs text-text-muted">
+            <span className="text-xs text-text-muted-light dark:text-text-muted">
               {user?.rol === ROLES.CLIENTE && 'Cliente'}
               {user?.rol === ROLES.ENTRENADOR && 'Entrenador'}
               {user?.rol === ROLES.ADMIN && 'Administrador'}
@@ -82,7 +82,7 @@ export default function Sidebar() {
             className={`flex items-center gap-3 px-6 py-3 transition-all duration-200 border-l-3 ${
               isActive(item.path)
                 ? 'bg-primary/10 text-primary border-l-primary'
-                : 'text-text-secondary hover:text-text-primary hover:bg-dark-surface border-l-transparent'
+                : 'text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface border-l-transparent'
             }`}
           >
             <span className="text-xl">{item.icon}</span>
@@ -92,13 +92,13 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="p-6 border-t border-dark-border">
+      <div className="p-6 border-t border-light-border dark:border-dark-border">
         <div className="card p-4 bg-gradient-to-br from-primary/20 to-primary-light/20 border-primary/30">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-2xl">🏆</span>
             <span className="font-semibold text-sm">Actualiza a PRO</span>
           </div>
-          <p className="text-xs text-text-secondary mb-3">
+          <p className="text-xs text-text-secondary-light dark:text-text-secondary mb-3">
             Desbloquea todas las funciones premium
           </p>
           <button className="btn-gold w-full text-sm py-2">

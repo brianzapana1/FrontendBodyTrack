@@ -12,6 +12,16 @@ const api = axios.create({
 // Interceptor para agregar token a todas las peticiones
 api.interceptors.request.use(
   (config) => {
+    // Initialize headers if not present
+    if (!config.headers) {
+      config.headers = {}
+    }
+    
+    // Skip if Authorization header is already set (e.g., passed directly)
+    if (config.headers.Authorization) {
+      return config
+    }
+    
     const token = useAuthStore.getState().token
     if (token) {
       config.headers.Authorization = `Bearer ${token}`

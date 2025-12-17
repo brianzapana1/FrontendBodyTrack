@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
+import { useThemeStore } from '../../store/themeStore'
 import { ROLES } from '../../utils/constants'
 
 export default function Navbar() {
   const { user, logout } = useAuthStore()
+  const { theme, toggleTheme } = useThemeStore()
   const location = useLocation()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
@@ -65,7 +67,7 @@ export default function Navbar() {
   const navLinks = getNavLinks()
 
   return (
-    <nav className="bg-dark-card border-b border-dark-border sticky top-0 z-50">
+    <nav className="bg-light-card dark:bg-dark-card border-b border-light-border dark:border-dark-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -85,7 +87,7 @@ export default function Navbar() {
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
                   isActive(link.path)
                     ? 'text-primary bg-primary/10'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-dark-surface'
+                    : 'text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface'
                 }`}
               >
                 <span>{link.icon}</span>
@@ -98,7 +100,7 @@ export default function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-dark-surface transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
             >
               {/* Avatar */}
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-sm font-bold">
@@ -106,14 +108,14 @@ export default function Navbar() {
               </div>
               {/* User Info */}
               <div className="hidden sm:flex flex-col items-start">
-                <span className="text-sm font-medium text-text-primary">
+                <span className="text-sm font-medium text-text-primary-light dark:text-text-primary">
                   {user?.nombres} {user?.apellidos}
                 </span>
-                <span className="text-xs text-text-muted uppercase">{user?.rol}</span>
+                <span className="text-xs text-text-muted-light dark:text-text-muted uppercase">{user?.rol}</span>
               </div>
               {/* Dropdown Arrow */}
               <svg
-                className={`w-4 h-4 text-text-secondary transition-transform ${
+                className={`w-4 h-4 text-text-secondary-light dark:text-text-secondary transition-transform ${
                   isDropdownOpen ? 'rotate-180' : ''
                 }`}
                 fill="none"
@@ -126,11 +128,11 @@ export default function Navbar() {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-dark-card border border-dark-border rounded-lg shadow-lg py-2 z-50">
+              <div className="absolute right-0 mt-2 w-56 bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg shadow-lg py-2 z-50">
                 <Link
                   to="/perfil"
                   onClick={() => setIsDropdownOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface transition-colors"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
                 >
                   <span className="text-lg">👤</span>
                   <span>Ver Perfil</span>
@@ -138,7 +140,7 @@ export default function Navbar() {
                 <Link
                   to="/perfil/editar"
                   onClick={() => setIsDropdownOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface transition-colors"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
                 >
                   <span className="text-lg">✏️</span>
                   <span>Editar Perfil</span>
@@ -146,18 +148,28 @@ export default function Navbar() {
                 <Link
                   to="/perfil/cambiar-password"
                   onClick={() => setIsDropdownOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-dark-surface transition-colors"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors"
                 >
                   <span className="text-lg">🔒</span>
                   <span>Cambiar Contraseña</span>
                 </Link>
-                <div className="border-t border-dark-border my-2"></div>
+                <div className="border-t border-light-border dark:border-dark-border my-2"></div>
+                <button
+                  onClick={() => {
+                    toggleTheme()
+                  }}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-text-primary hover:bg-light-surface dark:hover:bg-dark-surface transition-colors w-full text-left"
+                >
+                  <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
+                  <span>{theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}</span>
+                </button>
+                <div className="border-t border-light-border dark:border-dark-border my-2"></div>
                 <button
                   onClick={() => {
                     setIsDropdownOpen(false)
                     logout()
                   }}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-status-error hover:bg-dark-surface transition-colors w-full text-left"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-status-error-light dark:text-status-error hover:bg-light-surface dark:hover:bg-dark-surface transition-colors w-full text-left"
                 >
                   <span className="text-lg">🚪</span>
                   <span>Cerrar Sesión</span>
@@ -169,7 +181,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden border-t border-dark-border">
+      <div className="md:hidden border-t border-light-border dark:border-dark-border">
         <div className="flex justify-around py-2">
           {navLinks.slice(0, 4).map((link) => (
             <Link
@@ -178,7 +190,7 @@ export default function Navbar() {
               className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
                 isActive(link.path)
                   ? 'text-primary'
-                  : 'text-text-secondary'
+                  : 'text-text-secondary-light dark:text-text-secondary'
               }`}
             >
               <span className="text-xl">{link.icon}</span>

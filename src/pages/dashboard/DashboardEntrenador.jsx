@@ -12,7 +12,7 @@ export default function DashboardEntrenador() {
         <h1 className="text-heading-2 font-bold mb-2">
           ¡Hola, {entrenador?.nombres}! 💪
         </h1>
-        <p className="text-text-secondary">
+        <p className="text-text-secondary-light dark:text-text-secondary">
           {entrenador?.especialidad || 'Entrenador Personal'} - Gestiona tus clientes y rutinas
         </p>
       </div>
@@ -22,25 +22,25 @@ export default function DashboardEntrenador() {
         <div className="card card-hover text-center">
           <div className="text-4xl mb-2">👥</div>
           <div className="text-3xl font-bold text-primary mb-1">0</div>
-          <div className="text-sm text-text-secondary">Clientes Activos</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Clientes Activos</div>
         </div>
 
         <div className="card card-hover text-center">
           <div className="text-4xl mb-2">📋</div>
           <div className="text-3xl font-bold text-accent-teal mb-1">0</div>
-          <div className="text-sm text-text-secondary">Rutinas Creadas</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Rutinas Creadas</div>
         </div>
 
         <div className="card card-hover text-center">
           <div className="text-4xl mb-2">💪</div>
           <div className="text-3xl font-bold text-accent-gold mb-1">0</div>
-          <div className="text-sm text-text-secondary">Ejercicios Propios</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Ejercicios Propios</div>
         </div>
 
         <div className="card card-hover text-center">
           <div className="text-4xl mb-2">⭐</div>
           <div className="text-3xl font-bold text-accent-orange mb-1">--</div>
-          <div className="text-sm text-text-secondary">Valoración</div>
+          <div className="text-sm text-text-secondary-light dark:text-text-secondary">Valoración</div>
         </div>
       </div>
 
@@ -52,12 +52,12 @@ export default function DashboardEntrenador() {
             Ver todos →
           </Link>
         </div>
-        <div className="bg-dark-surface p-6 rounded-lg text-center">
+        <div className="bg-light-surface dark:bg-dark-surface p-6 rounded-lg text-center">
           <div className="text-5xl mb-3">👥</div>
-          <p className="text-text-secondary mb-3">
+          <p className="text-text-secondary-light dark:text-text-secondary mb-3">
             Aún no tienes clientes asignados
           </p>
-          <p className="text-sm text-text-secondary">
+          <p className="text-sm text-text-secondary-light dark:text-text-secondary">
             Los clientes te serán asignados por el administrador del sistema
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function DashboardEntrenador() {
           <div className="text-5xl">🎓</div>
           <div className="flex-1">
             <h3 className="text-xl font-semibold mb-1">Perfil Profesional</h3>
-            <p className="text-text-secondary text-sm mb-2">
+            <p className="text-text-secondary-light dark:text-text-secondary text-sm mb-2">
               {entrenador?.certificaciones 
                 ? 'Certificaciones verificadas'
                 : 'Completa tu perfil profesional'}
@@ -105,8 +105,8 @@ export default function DashboardEntrenador() {
       {/* Actividad Reciente */}
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Actividad Reciente</h2>
-        <div className="bg-dark-surface p-6 rounded-lg text-center">
-          <p className="text-text-secondary">
+        <div className="bg-light-surface dark:bg-dark-surface p-6 rounded-lg text-center">
+          <p className="text-text-secondary-light dark:text-text-secondary">
             No hay actividad reciente
           </p>
         </div>

@@ -21,8 +21,11 @@ export const useAuthStore = create((set, get) => ({
       const refreshData = await authAPI.refresh()
       
       if (refreshData && refreshData.token) {
-        // Get user profile with all data including nombres, apellidos, etc.
-        const profile = await authAPI.getPerfil()
+        // Set token first
+        set({ token: refreshData.token, isAuthenticated: true })
+        
+        // Get user profile, passing token directly
+        const profile = await authAPI.getPerfil(refreshData.token)
         
         set({ 
           user: profile,
@@ -85,11 +88,11 @@ export const useAuthStore = create((set, get) => ({
         throw new Error('No se recibió token de autenticación')
       }
       
-      // Set token first so getPerfil can use it
-      set({ token: data.token })
+      // Set token SYNCHRONOUSLY before making any other API calls
+      set({ token: data.token, isAuthenticated: true })
       
-      // Fetch full profile to get nombres/apellidos at root level
-      const profile = await authAPI.getPerfil()
+      // Fetch profile, passing token directly to avoid race condition
+      const profile = await authAPI.getPerfil(data.token)
       
       set({ 
         user: profile, 
@@ -119,8 +122,11 @@ export const useAuthStore = create((set, get) => ({
     try {
       const data = await authAPI.registroCliente(userData)
       
-      // Fetch full profile to get nombres/apellidos at root level
-      const profile = await authAPI.getPerfil()
+      // Set token SYNCHRONOUSLY before making any other API calls
+      set({ token: data.token, isAuthenticated: true })
+      
+      // Fetch profile, passing token directly to avoid race condition
+      const profile = await authAPI.getPerfil(data.token)
       
       set({ 
         user: profile, 
@@ -142,8 +148,11 @@ export const useAuthStore = create((set, get) => ({
     try {
       const data = await authAPI.registroEntrenador(userData)
       
-      // Fetch full profile to get nombres/apellidos at root level
-      const profile = await authAPI.getPerfil()
+      // Set token SYNCHRONOUSLY before making any other API calls
+      set({ token: data.token, isAuthenticated: true })
+      
+      // Fetch profile, passing token directly to avoid race condition
+      const profile = await authAPI.getPerfil(data.token)
       
       set({ 
         user: profile, 

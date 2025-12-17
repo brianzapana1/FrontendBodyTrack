@@ -28,7 +28,7 @@ export default function ViewProfile() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-heading-2 font-bold">Mi Perfil</h1>
-          <p className="text-text-secondary mt-1">
+          <p className="text-text-secondary-light dark:text-text-secondary mt-1">
             Información de tu cuenta
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function ViewProfile() {
             <h2 className="text-2xl font-bold">
               {userData?.nombres} {userData?.apellidos}
             </h2>
-            <p className="text-text-secondary">{userData?.email}</p>
+            <p className="text-text-secondary-light dark:text-text-secondary">{userData?.email}</p>
             <div className="flex gap-2 mt-2">
               <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium">
                 {userData?.rol === ROLES.CLIENTE && '👤 Cliente'}
@@ -67,29 +67,29 @@ export default function ViewProfile() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-dark-surface my-6"></div>
+        <div className="border-t border-light-border dark:border-dark-surface my-6"></div>
 
         {/* Detailed Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-semibold text-text-secondary mb-3">
+            <h3 className="text-sm font-semibold text-text-secondary-light dark:text-text-secondary mb-3">
               INFORMACIÓN PERSONAL
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-sm text-text-secondary">Nombres</label>
+                <label className="text-sm text-text-secondary-light dark:text-text-secondary">Nombres</label>
                 <p className="font-medium">{userData?.nombres || '-'}</p>
               </div>
               <div>
-                <label className="text-sm text-text-secondary">Apellidos</label>
+                <label className="text-sm text-text-secondary-light dark:text-text-secondary">Apellidos</label>
                 <p className="font-medium">{userData?.apellidos || '-'}</p>
               </div>
               <div>
-                <label className="text-sm text-text-secondary">Email</label>
+                <label className="text-sm text-text-secondary-light dark:text-text-secondary">Email</label>
                 <p className="font-medium">{userData?.email || '-'}</p>
               </div>
               <div>
-                <label className="text-sm text-text-secondary">Teléfono</label>
+                <label className="text-sm text-text-secondary-light dark:text-text-secondary">Teléfono</label>
                 <p className="font-medium">{userData?.telefono || 'No registrado'}</p>
               </div>
             </div>
@@ -98,24 +98,24 @@ export default function ViewProfile() {
           {/* Role-specific information */}
           {isCliente && userData?.cliente && (
             <div>
-              <h3 className="text-sm font-semibold text-text-secondary mb-3">
+              <h3 className="text-sm font-semibold text-text-secondary-light dark:text-text-secondary mb-3">
                 INFORMACIÓN DE CLIENTE
               </h3>
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm text-text-secondary">Peso</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Peso</label>
                   <p className="font-medium">{userData.cliente.peso ? `${userData.cliente.peso} kg` : '-'}</p>
                 </div>
                 <div>
-                  <label className="text-sm text-text-secondary">Altura</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Altura</label>
                   <p className="font-medium">{userData.cliente.altura ? `${userData.cliente.altura} cm` : '-'}</p>
                 </div>
                 <div>
-                  <label className="text-sm text-text-secondary">Plan</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Plan</label>
                   <p className="font-medium capitalize">{userData.cliente.plan || 'Gratis'}</p>
                 </div>
                 <div>
-                  <label className="text-sm text-text-secondary">Entrenador</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Entrenador</label>
                   <p className="font-medium">
                     {userData.cliente.entrenadorId ? 'Asignado' : 'Sin asignar'}
                   </p>
@@ -126,20 +126,20 @@ export default function ViewProfile() {
 
           {isEntrenador && userData?.entrenador && (
             <div>
-              <h3 className="text-sm font-semibold text-text-secondary mb-3">
+              <h3 className="text-sm font-semibold text-text-secondary-light dark:text-text-secondary mb-3">
                 INFORMACIÓN PROFESIONAL
               </h3>
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm text-text-secondary">Especialidad</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Especialidad</label>
                   <p className="font-medium">{userData.entrenador.especialidad || '-'}</p>
                 </div>
                 <div>
-                  <label className="text-sm text-text-secondary">Certificaciones</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Certificaciones</label>
                   <p className="font-medium">{userData.entrenador.certificaciones || 'Ninguna'}</p>
                 </div>
                 <div>
-                  <label className="text-sm text-text-secondary">Calificación</label>
+                  <label className="text-sm text-text-secondary-light dark:text-text-secondary">Calificación</label>
                   <p className="font-medium">
                     {userData.entrenador.calificacion ? `⭐ ${userData.entrenador.calificacion}/5` : 'Sin calificaciones'}
                   </p>
@@ -150,7 +150,7 @@ export default function ViewProfile() {
 
           {isAdmin && (
             <div>
-              <h3 className="text-sm font-semibold text-text-secondary mb-3">
+              <h3 className="text-sm font-semibold text-text-secondary-light dark:text-text-secondary mb-3">
                 PERMISOS DE ADMINISTRADOR
               </h3>
               <div className="space-y-2">
@@ -182,51 +182,51 @@ export default function ViewProfile() {
         <div className="space-y-3">
           <Link
             to="/perfil/editar"
-            className="flex items-center justify-between p-4 bg-dark-surface rounded-lg hover:bg-dark-surface/80 transition-colors"
+            className="flex items-center justify-between p-4 bg-light-surface dark:bg-dark-surface rounded-lg hover:bg-light-border dark:hover:bg-dark-surface/80 transition-colors"
           >
             <div className="flex items-center gap-3">
               <span className="text-2xl">✏️</span>
               <div>
                 <p className="font-medium">Editar Perfil</p>
-                <p className="text-sm text-text-secondary">
+                <p className="text-sm text-text-secondary-light dark:text-text-secondary">
                   Actualiza tu información personal
                 </p>
               </div>
             </div>
-            <span className="text-text-secondary">→</span>
+            <span className="text-text-secondary-light dark:text-text-secondary">→</span>
           </Link>
 
           <Link
             to="/perfil/cambiar-password"
-            className="flex items-center justify-between p-4 bg-dark-surface rounded-lg hover:bg-dark-surface/80 transition-colors"
+            className="flex items-center justify-between p-4 bg-light-surface dark:bg-dark-surface rounded-lg hover:bg-light-border dark:hover:bg-dark-surface/80 transition-colors"
           >
             <div className="flex items-center gap-3">
               <span className="text-2xl">🔒</span>
               <div>
                 <p className="font-medium">Cambiar Contraseña</p>
-                <p className="text-sm text-text-secondary">
+                <p className="text-sm text-text-secondary-light dark:text-text-secondary">
                   Actualiza tu contraseña de acceso
                 </p>
               </div>
             </div>
-            <span className="text-text-secondary">→</span>
+            <span className="text-text-secondary-light dark:text-text-secondary">→</span>
           </Link>
 
           {isCliente && (
             <Link
               to="/suscripcion"
-              className="flex items-center justify-between p-4 bg-dark-surface rounded-lg hover:bg-dark-surface/80 transition-colors"
+              className="flex items-center justify-between p-4 bg-light-surface dark:bg-dark-surface rounded-lg hover:bg-light-border dark:hover:bg-dark-surface/80 transition-colors"
             >
               <div className="flex items-center gap-3">
                 <span className="text-2xl">💎</span>
                 <div>
                   <p className="font-medium">Gestionar Suscripción</p>
-                  <p className="text-sm text-text-secondary">
+                  <p className="text-sm text-text-secondary-light dark:text-text-secondary">
                     {userData?.suscripcionActiva ? 'Ver detalles de tu plan' : 'Mejora a Premium'}
                   </p>
                 </div>
               </div>
-              <span className="text-text-secondary">→</span>
+              <span className="text-text-secondary-light dark:text-text-secondary">→</span>
             </Link>
           )}
         </div>

@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen bg-dark-bg">
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg">
       {/* Sidebar - Desktop only */}
       <Sidebar />
 

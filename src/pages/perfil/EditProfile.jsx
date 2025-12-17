@@ -76,7 +76,7 @@ export default function EditProfile() {
       {/* Header */}
       <div>
         <h1 className="text-heading-2 font-bold">Editar Perfil</h1>
-        <p className="text-text-secondary mt-1">
+        <p className="text-text-secondary-light dark:text-text-secondary mt-1">
           Actualiza tu información personal
         </p>
       </div>
@@ -139,7 +139,7 @@ export default function EditProfile() {
         {/* Cliente Specific Fields */}
         {isCliente && (
           <>
-            <div className="border-t border-dark-surface"></div>
+            <div className="border-t border-light-border dark:border-dark-surface"></div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Información Física</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -158,7 +158,7 @@ export default function EditProfile() {
                     className="input"
                     placeholder="75.5"
                   />
-                  <p className="text-xs text-text-secondary mt-1">
+                  <p className="text-xs text-text-secondary-light dark:text-text-secondary mt-1">
                     Tu peso actual en kilogramos
                   </p>
                 </div>
@@ -178,7 +178,7 @@ export default function EditProfile() {
                     className="input"
                     placeholder="175"
                   />
-                  <p className="text-xs text-text-secondary mt-1">
+                  <p className="text-xs text-text-secondary-light dark:text-text-secondary mt-1">
                     Tu altura en centímetros
                   </p>
                 </div>
@@ -190,7 +190,7 @@ export default function EditProfile() {
         {/* Entrenador Specific Fields */}
         {isEntrenador && (
           <>
-            <div className="border-t border-dark-surface"></div>
+            <div className="border-t border-light-border dark:border-dark-surface"></div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Información Profesional</h3>
               <div className="space-y-4">
@@ -207,7 +207,7 @@ export default function EditProfile() {
                     className="input"
                     placeholder="Ej: Fuerza y Musculación"
                   />
-                  <p className="text-xs text-text-secondary mt-1">
+                  <p className="text-xs text-text-secondary-light dark:text-text-secondary mt-1">
                     Tu área de especialización principal
                   </p>
                 </div>
@@ -225,7 +225,7 @@ export default function EditProfile() {
                     className="input"
                     placeholder="Lista tus certificaciones y títulos profesionales"
                   />
-                  <p className="text-xs text-text-secondary mt-1">
+                  <p className="text-xs text-text-secondary-light dark:text-text-secondary mt-1">
                     Describe tus certificaciones y formación académica
                   </p>
                 </div>
@@ -235,7 +235,7 @@ export default function EditProfile() {
         )}
 
         {/* Form Actions */}
-        <div className="border-t border-dark-surface pt-6">
+        <div className="border-t border-light-border dark:border-dark-surface pt-6">
           <div className="flex gap-3 justify-end">
             <button
               type="button"
@@ -269,7 +269,7 @@ export default function EditProfile() {
           <span className="text-2xl">💡</span>
           <div>
             <h4 className="font-semibold text-primary mb-1">Consejo</h4>
-            <p className="text-sm text-text-secondary">
+            <p className="text-sm text-text-secondary-light dark:text-text-secondary">
               Mantén tu información actualizada para obtener mejores recomendaciones
               y seguimiento de tu progreso.
             </p>

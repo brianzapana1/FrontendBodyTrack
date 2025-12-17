@@ -97,7 +97,7 @@ export default function ChangePassword() {
       {/* Header */}
       <div>
         <h1 className="text-heading-2 font-bold">Cambiar Contraseña</h1>
-        <p className="text-text-secondary mt-1">
+        <p className="text-text-secondary-light dark:text-text-secondary mt-1">
           Actualiza tu contraseña de acceso
         </p>
       </div>
@@ -122,7 +122,7 @@ export default function ChangePassword() {
             <button
               type="button"
               onClick={() => togglePasswordVisibility('current')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-white"
             >
               {showPasswords.current ? '🙈' : '👁️'}
             </button>
@@ -132,7 +132,7 @@ export default function ChangePassword() {
           )}
         </div>
 
-        <div className="border-t border-dark-surface"></div>
+        <div className="border-t border-light-border dark:border-dark-surface"></div>
 
         {/* New Password */}
         <div>
@@ -152,7 +152,7 @@ export default function ChangePassword() {
             <button
               type="button"
               onClick={() => togglePasswordVisibility('new')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-white"
             >
               {showPasswords.new ? '🙈' : '👁️'}
             </button>
@@ -160,7 +160,7 @@ export default function ChangePassword() {
           {errors.newPassword && (
             <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
           )}
-          <p className="text-xs text-text-secondary mt-1">
+          <p className="text-xs text-text-secondary-light dark:text-text-secondary mt-1">
             Mínimo 6 caracteres. Usa una combinación de letras y números.
           </p>
         </div>
@@ -183,7 +183,7 @@ export default function ChangePassword() {
             <button
               type="button"
               onClick={() => togglePasswordVisibility('confirm')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary-light dark:text-text-secondary hover:text-text-primary-light dark:hover:text-white"
             >
               {showPasswords.confirm ? '🙈' : '👁️'}
             </button>
@@ -194,7 +194,7 @@ export default function ChangePassword() {
         </div>
 
         {/* Form Actions */}
-        <div className="border-t border-dark-surface pt-6">
+        <div className="border-t border-light-border dark:border-dark-surface pt-6">
           <div className="flex gap-3 justify-end">
             <button
               type="button"
@@ -228,7 +228,7 @@ export default function ChangePassword() {
           <span className="text-2xl">🔒</span>
           <div>
             <h4 className="font-semibold text-accent-gold mb-2">Consejos de Seguridad</h4>
-            <ul className="text-sm text-text-secondary space-y-1">
+            <ul className="text-sm text-text-secondary-light dark:text-text-secondary space-y-1">
               <li>• Usa al menos 8 caracteres con letras y números</li>
               <li>• No uses información personal obvia</li>
               <li>• Cambia tu contraseña periódicamente</li>

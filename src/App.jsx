@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { useAuthStore } from './store/authStore'
+import { useThemeStore } from './store/themeStore'
 
 // Layouts
 import MainLayout from './components/layout/MainLayout'
@@ -30,9 +31,11 @@ const queryClient = new QueryClient({
 
 function App() {
   const { isAuthenticated, isInitialized, initialize } = useAuthStore()
+  const { theme, initializeTheme } = useThemeStore()
 
-  // Initialize auth state on app load
+  // Initialize auth state and theme on app load
   useEffect(() => {
+    initializeTheme()
     initialize()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -40,10 +43,10 @@ function App() {
   // Show loading while checking auth status
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+      <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-text-secondary">Cargando...</p>
+          <p className="text-text-secondary-light dark:text-text-secondary">Cargando...</p>
         </div>
       </div>
     )
@@ -56,9 +59,9 @@ function App() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#1a1a1a',
-            color: '#e5e5e5',
-            border: '1px solid #2a2a2a',
+            background: theme === 'dark' ? '#1a1a1a' : '#ffffff',
+            color: theme === 'dark' ? '#e5e5e5' : '#0a0a0a',
+            border: theme === 'dark' ? '1px solid #2a2a2a' : '1px solid #e5e5e5',
           },
           success: {
             iconTheme: {
@@ -115,10 +118,10 @@ function App() {
           <Route 
             path="*" 
             element={
-              <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+              <div className="min-h-screen bg-light-bg dark:bg-dark-bg flex items-center justify-center">
                 <div className="text-center">
                   <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
-                  <p className="text-text-secondary mb-6">Página no encontrada</p>
+                  <p className="text-text-secondary-light dark:text-text-secondary mb-6">Página no encontrada</p>
                   <a href="/" className="btn-primary">Volver al inicio</a>
                 </div>
               </div>
