@@ -17,6 +17,7 @@ import ViewProfile from './pages/perfil/ViewProfile'
 import EditProfile from './pages/perfil/EditProfile'
 import ChangePassword from './pages/perfil/ChangePassword'
 import Progreso from './pages/progreso/Progreso'
+import Ejercicios from './pages/ejercicios/Ejercicios'
 import ProtectedRoute from './routes/ProtectedRoute'
 
 // Create a client
@@ -107,6 +108,7 @@ function App() {
             <Route path="/perfil/editar" element={<EditProfile />} />
             <Route path="/perfil/cambiar-password" element={<ChangePassword />} />
             <Route path="/progreso" element={<Progreso />} />
+            <Route path="/ejercicios" element={<Ejercicios />} />
             {/* Add more protected routes here */}
           </Route>
 

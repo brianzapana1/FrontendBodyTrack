@@ -20,6 +20,7 @@ export default function Sidebar() {
       return [
         ...baseItems,
         { path: '/progreso', label: 'Mi Progreso', icon: '📈' },
+        { path: '/ejercicios', label: 'Ejercicios', icon: '🏋️' },
         { path: '/mi-rutina', label: 'Mi Rutina', icon: '💪' },
         { path: '/foro', label: 'Foro', icon: '💬' },
         { path: '/suscripcion', label: 'Suscripción', icon: '💳' }
